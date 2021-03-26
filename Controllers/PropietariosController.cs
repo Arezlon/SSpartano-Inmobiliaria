@@ -4,21 +4,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SSpartanoInmobiliaria.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace SSpartanoInmobiliaria.Controllers
 {
     public class PropietariosController : Controller
     {
-        // GET: PropietariosController
+        private readonly IConfiguration c;
+        private RepositorioPropietario rp;
+
+        public PropietariosController(IConfiguration c)
+        {
+            rp = new RepositorioPropietario(c);
+            this.c = c;
+        }
         public ActionResult Index()
         {
-            return View();
+            var lista = rp.ObtenerTodos();
+            return View(lista);
         }
 
         // GET: PropietariosController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(rp.ObtenerPorId(id));
         }
 
         // GET: PropietariosController/Create
@@ -30,57 +40,82 @@ namespace SSpartanoInmobiliaria.Controllers
         // POST: PropietariosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Propietario p)
         {
             try
             {
+                rp.Alta(p);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewData["Error"] = e.Message;
                 return View();
             }
         }
 
-        // GET: PropietariosController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var p = rp.ObtenerPorId(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(p);
         }
 
-        // POST: PropietariosController/Edit/5
+        // POST: Propietario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
+            Propietario p = null;
             try
             {
+                p = rp.ObtenerPorId(id);
+                p.Nombre = collection["Nombre"];
+                p.Apellido = collection["Apellido"];
+                p.Dni = collection["Dni"];
+                p.Email = collection["Email"];
+                p.Telefono = collection["Telefono"];
+                rp.Modificacion(p);
+                TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(p);
             }
         }
 
-        // GET: PropietariosController/Delete/5
+        // GET: Propietario/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var p = rp.ObtenerPorId(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(p);
         }
 
-        // POST: PropietariosController/Delete/5
+        // POST: Propietario/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Propietario entidad)
         {
             try
             {
+                rp.Baja(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(entidad);
             }
         }
     }
