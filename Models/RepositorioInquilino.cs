@@ -44,7 +44,7 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"DELETE FROM Inquilinos WHERE IdPropieterio = {id}";
+				string sql = $"DELETE FROM Inquilinos WHERE Id = {id}";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -62,7 +62,7 @@ namespace SSpartanoInmobiliaria.Models
 			{
 				string sql = $"UPDATE Inquilinos SET " +
 					$"Nombre=@nombre', Apellido=@apellido, Dni=@dni, Telefono=@telefono, Email=@email " +
-					$"WHERE IdInquilino = @idInquilino";
+					$"WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -71,7 +71,7 @@ namespace SSpartanoInmobiliaria.Models
 					command.Parameters.AddWithValue("@dni", e.Dni);
 					command.Parameters.AddWithValue("@telefono", e.Telefono);
 					command.Parameters.AddWithValue("@email", e.Email);
-					command.Parameters.AddWithValue("@idInquilino", e.Id);
+					command.Parameters.AddWithValue("@id", e.Id);
 					connection.Open();
 					res = command.ExecuteNonQuery();
 					connection.Close();
