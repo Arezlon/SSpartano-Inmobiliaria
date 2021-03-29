@@ -81,7 +81,7 @@ namespace SSpartanoInmobiliaria.Controllers
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
-                ViewBag.StackTrate = ex.StackTrace;
+                ViewBag.StackTrace = ex.StackTrace;
                 return View(i);
             }
         }
