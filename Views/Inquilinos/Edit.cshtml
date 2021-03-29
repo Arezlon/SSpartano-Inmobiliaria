@@ -1,4 +1,4 @@
-﻿@model SSpartanoInmobiliaria.Models.Propietario
+﻿@model SSpartanoInmobiliaria.Models.Inquilino
 
 @{
     ViewData["Title"] = "Modificacion";
@@ -6,7 +6,7 @@
 
 <h1>Modificacion</h1>
 
-<h4>Propietario</h4>
+<h4>Inquilino</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -42,13 +42,6 @@
                 <input asp-for="Telefono" class="form-control" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
-            <!--
-            <div class="form-group">
-                <label asp-for="Clave" class="control-label"></label>
-                <input asp-for="Clave" class="form-control" />
-                <span asp-validation-for="Clave" class="text-danger"></span>
-            </div>
-            -->
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

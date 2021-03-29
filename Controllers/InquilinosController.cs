@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using SSpartanoInmobiliaria.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,78 +11,105 @@ namespace SSpartanoInmobiliaria.Controllers
 {
     public class InquilinosController : Controller
     {
-        // GET: InquilinosController
+        private readonly IConfiguration c;
+        private RepositorioInquilino ri;
+
+        public InquilinosController(IConfiguration c)
+        {
+            ri = new RepositorioInquilino(c);
+            this.c = c;
+        }
         public ActionResult Index()
         {
-            return View();
+            var lista = ri.ObtenerTodos();
+            return View(lista);
         }
 
-        // GET: InquilinosController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(ri.ObtenerPorId(id));
         }
 
-        // GET: InquilinosController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: InquilinosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Inquilino i)
         {
             try
             {
+                ri.Alta(i);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewData["Error"] = e.Message;
                 return View();
             }
         }
 
-        // GET: InquilinosController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var p = ri.ObtenerPorId(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(p);
         }
 
-        // POST: InquilinosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
+            Inquilino i = null;
             try
             {
+                i = ri.ObtenerPorId(id);
+                i.Nombre = collection["Nombre"];
+                i.Apellido = collection["Apellido"];
+                i.Dni = collection["Dni"];
+                i.Email = collection["Email"];
+                i.Telefono = collection["Telefono"];
+                ri.Modificacion(i);
+                TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(i);
             }
         }
 
-        // GET: InquilinosController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var i = ri.ObtenerPorId(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(i);
         }
 
-        // POST: InquilinosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Inquilino ei)
         {
             try
             {
+                ri.Baja(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(ei);
             }
         }
     }
