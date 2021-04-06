@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SSpartanoInmobiliaria.Models.Inquilino>
+﻿@model IEnumerable<SSpartanoInmobiliaria.Models.Inmueble>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,19 +16,19 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+                @Html.DisplayNameFor(model => model.PropietarioId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Apellido)
+                @Html.DisplayNameFor(model => model.Uso)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Dni)
+                @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.Ambientes)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Telefono)
+                @Html.DisplayNameFor(model => model.Precio)
             </th>
             <th></th>
         </tr>
@@ -40,19 +40,19 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
+                @Html.DisplayFor(modelItem => item.PropietarioId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
+                @Html.DisplayFor(modelItem => item.Uso)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Dni)
+                @Html.DisplayFor(modelItem => item.Tipo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @Html.DisplayFor(modelItem => item.Ambientes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
+                @Html.DisplayFor(modelItem => item.Precio)
             </td>
             <td>
                 @Html.ActionLink("Editar", "Edit", new { Id = item.Id }) |

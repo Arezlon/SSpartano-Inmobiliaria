@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using SSpartanoInmobiliaria.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,78 +11,106 @@ namespace SSpartanoInmobiliaria.Controllers
 {
     public class InmueblesController : Controller
     {
-        // GET: InmueblesController
+        private readonly IConfiguration c;
+        private RepositorioInmueble ri;
+
+        public InmueblesController(IConfiguration c)
+        {
+            ri = new RepositorioInmueble(c);
+            this.c = c;
+        }
         public ActionResult Index()
         {
-            return View();
+            var lista = ri.ObtenerTodos();
+            return View(lista);
         }
 
-        // GET: InmueblesController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(ri.ObtenerPorId(id));
         }
 
-        // GET: InmueblesController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: InmueblesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Inmueble i)
         {
             try
             {
+                ri.Alta(i);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewData["Error"] = e.Message;
                 return View();
             }
         }
 
-        // GET: InmueblesController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var i = ri.ObtenerPorId(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(i);
         }
 
-        // POST: InmueblesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
+            Inmueble i = null;
             try
             {
+                i = ri.ObtenerPorId(id);
+                i.PropietarioId = Convert.ToInt32(collection["PropietarioId"]);
+                i.Uso = collection["Uso"];
+                i.Tipo = collection["Tipo"];
+                i.Ambientes = Convert.ToInt32(collection["Ambientes"]);
+                i.Precio = Convert.ToInt32(collection["Precio"]);
+                i.Estado = Convert.ToInt32(collection["Estado"]);
+                ri.Modificacion(i);
+                TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrace = ex.StackTrace;
+                return View(i);
             }
         }
 
-        // GET: InmueblesController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var i = ri.ObtenerPorId(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(i);
         }
 
-        // POST: InmueblesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Inmueble e)
         {
             try
             {
+                ri.Baja(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(e);
             }
         }
     }

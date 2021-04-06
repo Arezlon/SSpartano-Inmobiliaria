@@ -118,7 +118,7 @@ namespace SSpartanoInmobiliaria.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Clave FROM Propietarios" +
-					$" WHERE Id=@id";
+					$" WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
