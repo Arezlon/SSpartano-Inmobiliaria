@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using SSpartanoInmobiliaria.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,78 +11,104 @@ namespace SSpartanoInmobiliaria.Controllers
 {
     public class ContratosController : Controller
     {
-        // GET: ContratosController
+        private readonly IConfiguration c;
+        private RepositorioContrato rc;
+
+        public ContratosController(IConfiguration c)
+        {
+            rc = new RepositorioContrato(c);
+            this.c = c;
+        }
         public ActionResult Index()
         {
-            return View();
+            var lista = rc.ObtenerTodos();
+            return View(lista);
         }
 
-        // GET: ContratosController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return View(rc.ObtenerPorId(id));
         }
 
-        // GET: ContratosController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ContratosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Contrato c)
         {
             try
             {
+                rc.Alta(c);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception e)
             {
+                ViewData["Error"] = e.Message;
                 return View();
             }
         }
 
-        // GET: ContratosController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var c = rc.ObtenerPorId(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(c);
         }
 
-        // POST: ContratosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
+            Contrato c = null;
             try
             {
+                c = rc.ObtenerPorId(id);
+                c.InmuebleId = Convert.ToInt32(collection["InmuebleId"]);
+                c.InquilinoId = Convert.ToInt32(collection["InquilinoId"]);
+                c.FechaInicio = DateTime.Parse(collection["FechaInicio"]);
+                c.FechaFin = DateTime.Parse(collection["FechaFin"]);
+                rc.Modificacion(c);
+                TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrace = ex.StackTrace;
+                return View(c);
             }
         }
 
-        // GET: ContratosController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var i = rc.ObtenerPorId(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(i);
         }
 
-        // POST: ContratosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Contrato e)
         {
             try
             {
+                rc.Baja(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(e);
             }
         }
     }

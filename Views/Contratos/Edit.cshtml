@@ -1,4 +1,4 @@
-﻿@model SSpartanoInmobiliaria.Models.Inquilino
+﻿@model SSpartanoInmobiliaria.Models.Contrato
 
 @{
     ViewData["Title"] = "Modificacion";
@@ -13,29 +13,24 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                <label asp-for="InmuebleId" class="control-label"></label>
+                <input asp-for="InmuebleId" class="form-control" />
+                <span asp-validation-for="InmuebleId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
-                <span asp-validation-for="Apellido" class="text-danger"></span>
+                <label asp-for="InquilinoId" class="control-label"></label>
+                <input asp-for="InquilinoId" class="form-control" />
+                <span asp-validation-for="InquilinoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Dni" class="control-label"></label>
-                <input type="number" asp-for="Dni" class="form-control" />
-                <span asp-validation-for="Dni" class="text-danger"></span>
+                <label asp-for="FechaInicio" class="control-label"></label>
+                <input type="date" asp-for="FechaInicio" class="form-control" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input type="number" asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
+                <label asp-for="FechaFin" class="control-label"></label>
+                <input type="date" asp-for="FechaFin" class="form-control" />
+                <span asp-validation-for="FechaFin" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />

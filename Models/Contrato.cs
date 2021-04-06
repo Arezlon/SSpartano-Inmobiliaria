@@ -10,8 +10,8 @@ namespace SSpartanoInmobiliaria.Models
         public int Id { get; set; }
         public int InmuebleId { get; set; }
         public int InquilinoId { get; set; }
-        public int FechaInicio { get; set; }
-        public int FechaFin { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
         public int Estado { get; set; }
     }
 }

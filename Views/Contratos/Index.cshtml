@@ -1,11 +1,11 @@
-﻿@model IEnumerable<SSpartanoInmobiliaria.Models.Inquilino>
+﻿@model IEnumerable<SSpartanoInmobiliaria.Models.Contrato>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
-
+@ViewBag.Error
 <p>
     <a asp-action="Create">Crear nuevo</a>
 </p>
@@ -16,50 +16,45 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
+                @Html.DisplayNameFor(model => model.InmuebleId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Apellido)
+                @Html.DisplayNameFor(model => model.InquilinoId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Dni)
+                @Html.DisplayNameFor(model => model.FechaInicio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
+                @Html.DisplayNameFor(model => model.FechaFin)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dni)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { Id = item.Id }) |
-                @Html.ActionLink("Detalles", "Details", new { Id = item.Id }) |
-                @Html.ActionLink("Eliminar", "Delete", new { Id = item.Id })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InmuebleId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InquilinoId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaInicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaFin)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { Id = item.Id }) |
+                    @Html.ActionLink("Detalles", "Details", new { Id = item.Id }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { Id = item.Id })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

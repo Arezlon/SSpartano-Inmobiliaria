@@ -1,50 +1,44 @@
-﻿@model SSpartanoInmobiliaria.Models.Inquilino
+﻿@model SSpartanoInmobiliaria.Models.Contrato
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
+<h1>Detalles del contrato</h1>
+@ViewBag.Error
 <div>
     <h4>Contratos</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InmuebleId)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InmuebleId)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Apellido)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InquilinoId)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Apellido)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InquilinoId)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dni)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaInicio)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Dni)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaInicio)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaFin)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FechaFin)
         </dd>
     </dl>
 </div>
