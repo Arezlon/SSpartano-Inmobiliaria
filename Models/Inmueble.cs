@@ -9,6 +9,7 @@ namespace SSpartanoInmobiliaria.Models
     {
         public int Id { get; set; }
         public int PropietarioId { get; set; }
+        public string Direccion { get; set; }
         public string Uso { get; set; }
         public string Tipo { get; set; }
         public int Ambientes { get; set; }

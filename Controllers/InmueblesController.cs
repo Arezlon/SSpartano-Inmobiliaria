@@ -70,6 +70,7 @@ namespace SSpartanoInmobiliaria.Controllers
             {
                 i = ri.ObtenerPorId(id);
                 i.PropietarioId = Convert.ToInt32(collection["PropietarioId"]);
+                i.Direccion = collection["Direccion"];
                 i.Uso = collection["Uso"];
                 i.Tipo = collection["Tipo"];
                 i.Ambientes = Convert.ToInt32(collection["Ambientes"]);

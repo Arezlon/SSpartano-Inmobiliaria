@@ -16,6 +16,12 @@
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PropietarioId)
         </dt>
         <dd class="col-sm-10">
@@ -47,7 +53,7 @@
         </dd>
     </dl>
     <hr />
-    <h5>¿Está seguro de querer eliminar el inmueble -direccion- (ID: @Model.Id)?</h5>
+    <h5>¿Está seguro de querer eliminar el inmueble ubicado en @Model.Direccion (ID: @Model.Id)?</h5>
 
     <form asp-action="Delete">
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
