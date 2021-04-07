@@ -37,7 +37,7 @@ namespace SSpartanoInmobiliaria.Models
 		public string GaranteEmail { get; set; }
 		public override string ToString()
 		{
-			return Nombre + " " + Apellido + " (Cód: " + Id + ")";
+			return Apellido + " " + Nombre + " (Cód: " + Id + ")";
 		}
 	}
 }

@@ -29,7 +29,7 @@ namespace SSpartanoInmobiliaria.Models
         public string Clave { get; set; }
         public override string ToString()
         {
-            return Nombre + " " + Apellido + " (Cód: " + Id + ")";
+            return Apellido + " " + Nombre + " (Cód: " + Id + ")";
         }
     }
 }

@@ -133,8 +133,11 @@ namespace SSpartanoInmobiliaria.Models
 			Inmueble i = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Estado" +
-					$" FROM Inmuebles WHERE Id = @id";
+				//string sql = $"SELECT Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Estado" +
+				//	$" FROM Inmuebles WHERE Id = @id";
+				string sql = $"SELECT Inmuebles.Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Inmuebles.Estado, " +
+					$"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado" +
+					$" FROM Inmuebles JOIN Propietarios AS p ON Inmuebles.PropietarioId = p.Id WHERE Inmuebles.Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -153,6 +156,16 @@ namespace SSpartanoInmobiliaria.Models
 							Ambientes = reader.GetInt32(5),
 							Precio = reader.GetInt32(6),
 							Estado = reader.GetInt32(7),
+							Propietario = new Propietario
+							{
+								Id = reader.GetInt32(8),
+								Nombre = reader.GetString(9),
+								Apellido = reader.GetString(10),
+								Dni = reader.GetString(11),
+								Telefono = reader["Telefono"].ToString(),
+								Email = reader.GetString(13),
+								Clave = reader.GetString(14),
+							}
 						};
 					}
 					connection.Close();

@@ -37,10 +37,10 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InmuebleId)
+                    @item.Inmueble.ToString()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.InquilinoId)
+                    @item.Inquilino.ToString()
                 </td>
                 <td>
                     @item.FechaInicio.ToShortDateString()

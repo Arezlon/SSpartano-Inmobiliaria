@@ -45,7 +45,6 @@ namespace SSpartanoInmobiliaria.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"UPDATE Contratos SET Estado = 0 WHERE Id = @id";
-				//string sql = $"DELETE FROM Contratos WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -82,10 +81,11 @@ namespace SSpartanoInmobiliaria.Models
 		public IList<Contrato> ObtenerTodos()
 		{
 			IList<Contrato> res = new List<Contrato>();
+			//string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido "  Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado = 1";
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, InmuebleId, InquilinoId, FechaInicio, FechaFin " +
-					$" FROM Contratos WHERE Estado = 1";
+				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido " +
+					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado = 1";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -100,6 +100,25 @@ namespace SSpartanoInmobiliaria.Models
 							InquilinoId = reader.GetInt32(2),
 							FechaInicio = reader.GetDateTime(3),
 							FechaFin = reader.GetDateTime(4),
+							//Estado = reader.GetInt32(5),
+							Inmueble = new Inmueble
+							{
+								Id = reader.GetInt32(6),
+								Direccion = reader.GetString(7),
+								Uso = reader.GetString(8),
+							},
+							Inquilino = new Inquilino
+							{
+								Id = reader.GetInt32(9),
+								Nombre = reader.GetString(10),
+								Apellido = reader.GetString(11),
+							},
+							Propietario = new Propietario
+							{
+								Id = reader.GetInt32(12),
+								Nombre = reader.GetString(13),
+								Apellido = reader.GetString(14),
+							}
 						};
 						res.Add(c);
 					}
@@ -114,8 +133,10 @@ namespace SSpartanoInmobiliaria.Models
 			Contrato c = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, InmuebleId, InquilinoId, FechaInicio, FechaFin FROM Contratos" +
-					$" WHERE Id = @id";
+				//string sql = $"SELECT Id, InmuebleId, InquilinoId, FechaInicio, FechaFin FROM Contratos" +
+				//	$" WHERE Id = @id";
+				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido " +
+					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -131,6 +152,25 @@ namespace SSpartanoInmobiliaria.Models
 							InquilinoId = reader.GetInt32(2),
 							FechaInicio = reader.GetDateTime(3),
 							FechaFin = reader.GetDateTime(4),
+							//Estado = reader.GetInt32(5),
+							Inmueble = new Inmueble
+							{
+								Id = reader.GetInt32(6),
+								Direccion = reader.GetString(7),
+								Uso = reader.GetString(8),
+							},
+							Inquilino = new Inquilino
+							{
+								Id = reader.GetInt32(9),
+								Nombre = reader.GetString(10),
+								Apellido = reader.GetString(11),
+							},
+							Propietario = new Propietario
+							{
+								Id = reader.GetInt32(12),
+								Nombre = reader.GetString(13),
+								Apellido = reader.GetString(14),
+							}
 						};
 					}
 					connection.Close();
