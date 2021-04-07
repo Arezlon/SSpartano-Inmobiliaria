@@ -20,8 +20,8 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"INSERT INTO Inquilinos (Nombre, Apellido, Dni, Telefono, Email) " +
-					$"VALUES (@nombre, @apellido, @dni, @telefono, @email);" +
+				string sql = $"INSERT INTO Inquilinos (Nombre, Apellido, Dni, Telefono, Email, Estado) " +
+					$"VALUES (@nombre, @apellido, @dni, @telefono, @email, @estado);" +
 					"SELECT SCOPE_IDENTITY();";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -31,6 +31,7 @@ namespace SSpartanoInmobiliaria.Models
 					command.Parameters.AddWithValue("@dni", i.Dni);
 					command.Parameters.AddWithValue("@telefono", i.Telefono);
 					command.Parameters.AddWithValue("@email", i.Email);
+					command.Parameters.AddWithValue("@estado", 1);
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());
 					i.Id = res;
@@ -44,7 +45,8 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"DELETE FROM Inquilinos WHERE Id = @id";
+				//string sql = $"DELETE FROM Inquilinos WHERE Id = @id";
+				string sql = $"UPDATE Inquilinos SET Estado = 0 WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -85,7 +87,7 @@ namespace SSpartanoInmobiliaria.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email" +
-					$" FROM Inquilinos";
+					$" FROM Inquilinos WHERE Estado = 1";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;

@@ -30,7 +30,7 @@ namespace SSpartanoInmobiliaria.Models
 					command.Parameters.AddWithValue("@tipo", i.Tipo);
 					command.Parameters.AddWithValue("@ambientes", i.Ambientes);
 					command.Parameters.AddWithValue("@precio", i.Precio);
-					command.Parameters.AddWithValue("@estado", i.Estado);
+					command.Parameters.AddWithValue("@estado", 1);
 
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());
@@ -45,7 +45,8 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"DELETE FROM Inmuebles WHERE Id = @id";
+				//string sql = $"DELETE FROM Inmuebles WHERE Id = @id";
+				string sql = $"UPDATE Inmuebles SET Estado = 0 WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -87,7 +88,7 @@ namespace SSpartanoInmobiliaria.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"SELECT Id, PropietarioId, Uso, Tipo, Ambientes, Precio, Estado" +
-					$" FROM Inmuebles";
+					$" FROM Inmuebles WHERE Estado = 1";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -104,7 +105,6 @@ namespace SSpartanoInmobiliaria.Models
 							Ambientes = reader.GetInt32(4),
 							Precio = reader.GetInt32(5),
 							Estado = reader.GetInt32(6),
-							//Precio = reader.GetString(5),
 						};
 						res.Add(i);
 					}

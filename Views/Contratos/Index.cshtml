@@ -44,10 +44,10 @@
                     @Html.DisplayFor(modelItem => item.InquilinoId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaInicio)
+                    @item.FechaInicio.ToShortDateString()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FechaFin)
+                    @item.FechaFin.ToShortDateString()
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "Edit", new { Id = item.Id }) |

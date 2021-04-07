@@ -13,5 +13,7 @@ namespace SSpartanoInmobiliaria.Models
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public int Estado { get; set; }
+        public Inmueble Inmueble { get; set; }
+        public Inquilino Inquilino { get; set; }
     }
 }

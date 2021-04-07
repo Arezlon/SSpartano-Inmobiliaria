@@ -14,6 +14,7 @@ namespace SSpartanoInmobiliaria.Models
         public int Ambientes { get; set; }
         public int Precio { get; set; }
         public int Estado { get; set; }
+        public Propietario Propietario { get; set; }
 
     }
 }
