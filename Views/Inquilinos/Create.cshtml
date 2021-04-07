@@ -6,6 +6,8 @@
 
 <h1>Alta</h1>
 <h4>Inquilino</h4>
+
+@ViewData["Error"]
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -36,6 +38,38 @@
                 <input type="number" asp-for="Telefono" class="form-control" />
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="LugarTrabajo" class="control-label"></label>
+                <input asp-for="LugarTrabajo" class="form-control" />
+                <span asp-validation-for="LugarTrabajo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GaranteNombre" class="control-label"></label>
+                <input asp-for="GaranteNombre" class="form-control" />
+                <span asp-validation-for="GaranteNombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GaranteApellido" class="control-label"></label>
+                <input asp-for="GaranteApellido" class="form-control" />
+                <span asp-validation-for="GaranteApellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GaranteDni" class="control-label"></label>
+                <input asp-for="GaranteDni" class="form-control" />
+                <span asp-validation-for="GaranteDni" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GaranteTelefono" class="control-label"></label>
+                <input asp-for="GaranteTelefono" class="form-control" />
+                <span asp-validation-for="GaranteTelefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GaranteEmail" class="control-label"></label>
+                <input asp-for="GaranteEmail" class="form-control" />
+                <span asp-validation-for="GaranteEmail" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />
             </div>

@@ -23,7 +23,18 @@ namespace SSpartanoInmobiliaria.Models
 		[Display(Name = "Teléfono"), Required(ErrorMessage = "Campo obligatorio"), DataType(DataType.PhoneNumber)]
 		public string Telefono { get; set; }
 
-		//AGREGAR DATOS GARANTE
+		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Lugar de trabajo")]
+		public string LugarTrabajo { get; set; }
+		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Nombre del garante")]
+		public string GaranteNombre { get; set; }
+		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Apellido del garante")]
+		public string GaranteApellido { get; set; }
+		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "DNI del garante")]
+		public string GaranteDni { get; set; }
+		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Teléfono del garante")]
+		public string GaranteTelefono { get; set; }
+		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "E-mail del garante")]
+		public string GaranteEmail { get; set; }
 		public override string ToString()
 		{
 			return Nombre + " " + Apellido + " (Cód: " + Id + ")";

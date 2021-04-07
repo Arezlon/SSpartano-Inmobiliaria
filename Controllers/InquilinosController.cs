@@ -74,6 +74,13 @@ namespace SSpartanoInmobiliaria.Controllers
                 i.Dni = collection["Dni"];
                 i.Email = collection["Email"];
                 i.Telefono = collection["Telefono"];
+                i.LugarTrabajo = collection["LugarTrabajo"];
+                i.GaranteNombre = collection["GaranteNombre"];
+                i.GaranteApellido = collection["GaranteApellido"];
+                i.GaranteDni = collection["GaranteDni"];
+                i.GaranteTelefono = collection["GaranteTelefono"];
+                i.GaranteEmail = collection["GaranteEmail"];
+
                 ri.Modificacion(i);
                 TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));

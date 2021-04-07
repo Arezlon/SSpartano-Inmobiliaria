@@ -20,8 +20,8 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"INSERT INTO Inquilinos (Nombre, Apellido, Dni, Telefono, Email, Estado) " +
-					$"VALUES (@nombre, @apellido, @dni, @telefono, @email, @estado);" +
+				string sql = $"INSERT INTO Inquilinos (Nombre, Apellido, Dni, Telefono, Email, Estado, LugarTrabajo, GaranteNombre, GaranteApellido, GaranteDni, GaranteTelefono, GaranteEmail) " +
+					$"VALUES (@nombre, @apellido, @dni, @telefono, @email, @estado, @lugartrabajo, @garantenombre, @garanteapellido, @garantedni, @garantetelefono, @garanteemail);" +
 					"SELECT SCOPE_IDENTITY();";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -32,6 +32,12 @@ namespace SSpartanoInmobiliaria.Models
 					command.Parameters.AddWithValue("@telefono", i.Telefono);
 					command.Parameters.AddWithValue("@email", i.Email);
 					command.Parameters.AddWithValue("@estado", 1);
+					command.Parameters.AddWithValue("@lugartrabajo", i.LugarTrabajo);
+					command.Parameters.AddWithValue("@garantenombre", i.GaranteNombre);
+					command.Parameters.AddWithValue("@garanteapellido", i.GaranteApellido);
+					command.Parameters.AddWithValue("@garantedni", i.GaranteDni);
+					command.Parameters.AddWithValue("@garantetelefono", i.GaranteTelefono);
+					command.Parameters.AddWithValue("@garanteemail", i.GaranteEmail);
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());
 					i.Id = res;
@@ -63,8 +69,8 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"UPDATE Inquilinos SET Nombre=@nombre, Apellido=@apellido, Dni=@dni, Telefono=@telefono, Email=@email " +
-					$"WHERE Id = @id";
+				string sql = $"UPDATE Inquilinos SET Nombre=@nombre, Apellido=@apellido, Dni=@dni, Telefono=@telefono, Email=@email, LugarTrabajo=@lugartrabajo, GaranteNombre=@garantenombre, GaranteApellido=@garanteapellido, GaranteDni=@garantedni, GaranteTelefono=@garantetelefono, GaranteEmail=@garanteemail" +
+					$" WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -74,6 +80,12 @@ namespace SSpartanoInmobiliaria.Models
 					command.Parameters.AddWithValue("@telefono", i.Telefono);
 					command.Parameters.AddWithValue("@email", i.Email);
 					command.Parameters.AddWithValue("@id", i.Id);
+					command.Parameters.AddWithValue("@lugartrabajo", i.LugarTrabajo);
+					command.Parameters.AddWithValue("@garantenombre", i.GaranteNombre);
+					command.Parameters.AddWithValue("@garanteapellido", i.GaranteApellido);
+					command.Parameters.AddWithValue("@garantedni", i.GaranteDni);
+					command.Parameters.AddWithValue("@garantetelefono", i.GaranteTelefono);
+					command.Parameters.AddWithValue("@garanteemail", i.GaranteEmail);
 					connection.Open();
 					res = command.ExecuteNonQuery();
 					connection.Close();
@@ -86,7 +98,7 @@ namespace SSpartanoInmobiliaria.Models
 			IList<Inquilino> res = new List<Inquilino>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email" +
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, LugarTrabajo, GaranteNombre, GaranteApellido, GaranteDni, GaranteTelefono, GaranteEmail" +
 					$" FROM Inquilinos WHERE Estado = 1";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -101,8 +113,14 @@ namespace SSpartanoInmobiliaria.Models
 							Nombre = reader.GetString(1),
 							Apellido = reader.GetString(2),
 							Dni = reader.GetString(3),
-							Telefono = reader["Telefono"].ToString(),
+							Telefono = reader.GetString(4),
 							Email = reader.GetString(5),
+							LugarTrabajo = reader.GetString(6),
+							GaranteNombre = reader.GetString(7),
+							GaranteApellido = reader.GetString(8),
+							GaranteDni = reader.GetString(9),
+							GaranteTelefono = reader.GetString(10),
+							GaranteEmail = reader.GetString(11),
 						};
 						res.Add(i);
 					}
@@ -117,8 +135,8 @@ namespace SSpartanoInmobiliaria.Models
 			Inquilino i = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email FROM Inquilinos" +
-					$" WHERE Id = @id";
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, LugarTrabajo, GaranteNombre, GaranteApellido, GaranteDni, GaranteTelefono, GaranteEmail" +
+					$" FROM Inquilinos WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -135,6 +153,12 @@ namespace SSpartanoInmobiliaria.Models
 							Dni = reader.GetString(3),
 							Telefono = reader.GetString(4),
 							Email = reader.GetString(5),
+							LugarTrabajo = reader.GetString(6),
+							GaranteNombre = reader.GetString(7),
+							GaranteApellido = reader.GetString(8),
+							GaranteDni = reader.GetString(9),
+							GaranteTelefono = reader.GetString(10),
+							GaranteEmail = reader.GetString(11),
 						};
 					}
 					connection.Close();
