@@ -1,11 +1,10 @@
 ﻿@model SSpartanoInmobiliaria.Models.Inmueble
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles Inmueble";
 }
 
-<h1>Details</h1>
-
+<h1>Detalles</h1>
 <div>
     <h4>Inmuebles</h4>
     <hr />
@@ -49,6 +48,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { Id = Model.Id }) |
-    <a asp-action="Index">Volver</a>
+    @Html.ActionLink("Editar", "Edit", new { Id = Model.Id }) |
+    <a asp-action="Index">Volver a la lista</a>
 </div>

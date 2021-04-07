@@ -1,19 +1,18 @@
 ﻿@model IEnumerable<SSpartanoInmobiliaria.Models.Inmueble>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Inmuebles";
 }
 
-<h1>Index</h1>
-
+<h1>Inmuebles</h1>
 <p>
-    <a asp-action="Create">Crear nuevo</a>
+    <a class="float-right" asp-action="Create"><i class="fas fa-plus"></i> Crear nuevo</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Código
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PropietarioId)
