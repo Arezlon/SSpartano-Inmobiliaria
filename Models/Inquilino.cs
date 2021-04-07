@@ -10,27 +10,23 @@ namespace SSpartanoInmobiliaria.Models
     {
 		[Display(Name = "Código")]
 		public int Id { get; set; }
-		[Required(ErrorMessage = "Campo obligatorio")]
-		[StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo")]
-		[DataType(DataType.Text)]
+		[Required(ErrorMessage = "Campo obligatorio"), StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo"), DataType(DataType.Text)]
 		public string Nombre { get; set; }
 
-		[Required(ErrorMessage = "Campo obligatorio")]
-		[StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo")]
-		[DataType(DataType.Text)]
+		[Required(ErrorMessage = "Campo obligatorio"), StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo"), DataType(DataType.Text)]
 		public string Apellido { get; set; }
-		[Display(Name = "DNI")]
-		[Required(ErrorMessage = "Campo obligatorio")]
-		[StringLength(8, MinimumLength = 8, ErrorMessage = "Ingrese un número de DNI válido")]
-		[DataType(DataType.Text)]
+		[Display(Name = "DNI"), Required(ErrorMessage = "Campo obligatorio"), StringLength(8, MinimumLength = 8, ErrorMessage = "Ingrese un número de DNI válido"), DataType(DataType.Text)]
 		public string Dni { get; set; }
 
 		[Required(ErrorMessage = "Campo obligatorio"), EmailAddress(ErrorMessage = "Ingrese un e-mail válido")]
 		public string Email { get; set; }
-		[Display(Name = "Teléfono")]
-		[Required(ErrorMessage = "Campo obligatorio")]
-		[DataType(DataType.PhoneNumber)]
-		[Phone]
+		[Display(Name = "Teléfono"), Required(ErrorMessage = "Campo obligatorio"), DataType(DataType.PhoneNumber)]
 		public string Telefono { get; set; }
+
+		//AGREGAR DATOS GARANTE
+		public override string ToString()
+		{
+			return Nombre + " " + Apellido + " (Cód: " + Id + ")";
+		}
 	}
 }

@@ -11,15 +11,19 @@ namespace SSpartanoInmobiliaria.Models
         [Display(Name = "Código")]
         public int Id { get; set; }
         [Display(Name = "Inmueble")]
+        [Required(ErrorMessage = "Campo obligatorio")]
         public int InmuebleId { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         [Display(Name = "Inquilino")]
         public int InquilinoId { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         [Display(Name = "Fecha de Inicio")]
         public DateTime FechaInicio { get; set; }
+        [Required(ErrorMessage = "Campo obligatorio")]
         [Display(Name = "Fecha de Vencimiento")]
         public DateTime FechaFin { get; set; }
         public int Estado { get; set; }
-        public Inmueble Inmueble { get; set; }
+        public Inmueble Inmueble { get; set; } //y propietario
         public Inquilino Inquilino { get; set; }
     }
 }

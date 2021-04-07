@@ -12,10 +12,14 @@ namespace SSpartanoInmobiliaria.Controllers
     public class ContratosController : Controller
     {
         private readonly IConfiguration c;
+        private RepositorioInmueble ri;
+        private RepositorioInquilino riq;
         private RepositorioContrato rc;
 
         public ContratosController(IConfiguration c)
         {
+            ri = new RepositorioInmueble(c);
+            riq = new RepositorioInquilino(c);
             rc = new RepositorioContrato(c);
             this.c = c;
         }
@@ -32,6 +36,8 @@ namespace SSpartanoInmobiliaria.Controllers
 
         public ActionResult Create()
         {
+            ViewData["ListaInmuebles"] = ri.ObtenerTodos();
+            ViewData["ListaInquilinos"] = riq.ObtenerTodos();
             return View();
         }
 
@@ -58,6 +64,8 @@ namespace SSpartanoInmobiliaria.Controllers
                 ViewBag.Mensaje = TempData["Mensaje"];
             if (TempData.ContainsKey("Error"))
                 ViewBag.Error = TempData["Error"];
+            ViewData["ListaInmuebles"] = ri.ObtenerTodos();
+            ViewData["ListaInquilinos"] = riq.ObtenerTodos();
             return View(c);
         }
 

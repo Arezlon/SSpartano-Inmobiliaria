@@ -13,12 +13,28 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="InmuebleId" class="control-label"></label>
-                <input asp-for="InmuebleId" class="form-control" />
+                <select asp-for="InmuebleId" class="form-control">
+                    <option value="" hidden selected>Elegir un inmueble</option>
+                    @foreach (var i in ViewData["ListaInmuebles"] as List<Inmueble>)
+                    {
+                        <option value="@i.Id">
+                            @i.ToString()
+                        </option>
+                    }
+                </select>
                 <span asp-validation-for="InmuebleId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InquilinoId" class="control-label"></label>
-                <input asp-for="InquilinoId" class="form-control" />
+                <select asp-for="InquilinoId" class="form-control">
+                    <option value="" hidden selected>Elegir un inquilino</option>
+                    @foreach (var i in ViewData["ListaInquilinos"] as List<Inquilino>)
+                    {
+                        <option value="@i.Id">
+                            @i.ToString()
+                        </option>
+                    }
+                </select>
                 <span asp-validation-for="InquilinoId" class="text-danger"></span>
             </div>
             <div class="form-group">
