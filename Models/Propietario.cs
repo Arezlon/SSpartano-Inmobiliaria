@@ -8,6 +8,7 @@ namespace SSpartanoInmobiliaria.Models
 {
     public class Propietario
     {
+        [Display(Name = "Código")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo obligatorio")]
@@ -20,6 +21,7 @@ namespace SSpartanoInmobiliaria.Models
         [DataType(DataType.Text)]
         public string Apellido { get; set; }
 
+        [Display(Name = "DNI")]
         [Required(ErrorMessage = "Campo obligatorio")]
         [StringLength(8, MinimumLength = 8, ErrorMessage = "Ingrese un número de DNI válido")]
         [DataType(DataType.Text)]
@@ -27,7 +29,7 @@ namespace SSpartanoInmobiliaria.Models
 
         [Required(ErrorMessage = "Campo obligatorio"), EmailAddress(ErrorMessage = "Ingrese un e-mail válido")]
         public string Email { get; set; }
-
+        [Display(Name = "Teléfono")]
         [Required(ErrorMessage = "Campo obligatorio")]
         [DataType(DataType.PhoneNumber)]
         [Phone]
@@ -36,5 +38,9 @@ namespace SSpartanoInmobiliaria.Models
         [Required, DataType(DataType.Password)]
         [StringLength(16, MinimumLength = 8, ErrorMessage = "8 caracteres mínimo, 16 máximo")]
         public string Clave { get; set; }
+        public override string ToString()
+        {
+            return Nombre + " " + Apellido + " (Cód: " + Id + ")";
+        }
     }
 }

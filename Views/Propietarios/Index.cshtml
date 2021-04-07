@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                Código
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -54,9 +54,9 @@
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { Id = item.Id }) |
-                @Html.ActionLink("Detalles", "Details", new { Id = item.Id }) |
-                @Html.ActionLink("Eliminar", "Delete", new { Id = item.Id })
+                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-eye"></i></a>
+                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
             </td>
         </tr>
 }

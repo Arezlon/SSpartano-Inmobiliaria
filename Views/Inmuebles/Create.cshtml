@@ -13,7 +13,15 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PropietarioId" class="control-label"></label>
-                <input asp-for="PropietarioId" class="form-control" />
+                <select asp-for="PropietarioId" class="form-control">
+                    <option value="" hidden selected>Elegir un propietario</option>
+                    @foreach (var p in ViewData["ListaPropietarios"] as List<Propietario>)
+                    {
+                        <option value="@p.Id">
+                            @p.ToString()
+                        </option>
+                    }
+                </select>
                 <span asp-validation-for="PropietarioId" class="text-danger"></span>
             </div>
             <div class="form-group">
