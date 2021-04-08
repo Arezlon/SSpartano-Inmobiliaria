@@ -79,7 +79,6 @@ namespace SSpartanoInmobiliaria.Controllers
                 i.Tipo = collection["Tipo"];
                 i.Ambientes = Convert.ToInt32(collection["Ambientes"]);
                 i.Precio = Convert.ToInt32(collection["Precio"]);
-                i.Estado = Convert.ToInt32(collection["Estado"]);
                 ri.Modificacion(i);
                 TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
@@ -88,6 +87,7 @@ namespace SSpartanoInmobiliaria.Controllers
             {
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrace = ex.StackTrace;
+                ViewData["ListaPropietarios"] = rp.ObtenerTodos();
                 return View(i);
             }
         }

@@ -36,7 +36,7 @@ namespace SSpartanoInmobiliaria.Controllers
 
         public ActionResult Create()
         {
-            ViewData["ListaInmuebles"] = ri.ObtenerTodos();
+            ViewData["ListaInmuebles"] = ri.ObtenerDisponibles();
             ViewData["ListaInquilinos"] = riq.ObtenerTodos();
             return View();
         }
@@ -64,7 +64,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 ViewBag.Mensaje = TempData["Mensaje"];
             if (TempData.ContainsKey("Error"))
                 ViewBag.Error = TempData["Error"];
-            ViewData["ListaInmuebles"] = ri.ObtenerTodos();
+            ViewData["ListaInmuebles"] = ri.ObtenerDisponibles();
             ViewData["ListaInquilinos"] = riq.ObtenerTodos();
             return View(c);
         }
@@ -89,6 +89,8 @@ namespace SSpartanoInmobiliaria.Controllers
             {
                 ViewBag.Error = ex.Message;
                 ViewBag.StackTrace = ex.StackTrace;
+                ViewData["ListaInmuebles"] = ri.ObtenerDisponibles();
+                ViewData["ListaInquilinos"] = riq.ObtenerTodos();
                 return View(c);
             }
         }

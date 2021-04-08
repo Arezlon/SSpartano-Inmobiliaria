@@ -51,8 +51,7 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				//string sql = $"DELETE FROM Inquilinos WHERE Id = @id";
-				string sql = $"UPDATE Inquilinos SET Estado = 0 WHERE Id = @id";
+				string sql = $"UPDATE Inquilinos SET Estado = 0 WHERE Id = @id; UPDATE Contratos SET Estado = 0 WHERE InquilinoId = @id;";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;

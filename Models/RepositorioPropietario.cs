@@ -45,8 +45,9 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				//string sql = $"DELETE FROM Propietarios WHERE Id = @id";
-				string sql = $"UPDATE Propietarios SET Estado = 0 WHERE Id = @id";
+				//EDITAR O MEJORAR ESTO y cambiar tambien estado de contratos (propietarios > inmuebles > contratos)
+				string sql = $"UPDATE Propietarios SET Estado = 0 WHERE Id = @id; UPDATE Inmuebles SET Estado = 0 WHERE PropietarioId = @id;";
+				
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -87,8 +88,7 @@ namespace SSpartanoInmobiliaria.Models
 			IList<Propietario> res = new List<Propietario>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Clave" +
-					$" FROM Propietarios WHERE Estado = 1";
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Clave FROM Propietarios WHERE Estado = 1";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -102,7 +102,7 @@ namespace SSpartanoInmobiliaria.Models
 							Nombre = reader.GetString(1),
 							Apellido = reader.GetString(2),
 							Dni = reader.GetString(3),
-							Telefono = reader["Telefono"].ToString(),
+							Telefono = reader.GetString(4),
 							Email = reader.GetString(5),
 							Clave = reader.GetString(6),
 						};
@@ -119,8 +119,7 @@ namespace SSpartanoInmobiliaria.Models
 			Propietario p = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Clave FROM Propietarios" +
-					$" WHERE Id = @id";
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Clave FROM Propietarios WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -137,7 +136,7 @@ namespace SSpartanoInmobiliaria.Models
 							Dni = reader.GetString(3),
 							Telefono = reader.GetString(4),
 							Email = reader.GetString(5),
-							Clave = (String)reader["Clave"],
+							Clave = reader.GetString(6),
 						};
 					}
 					connection.Close();

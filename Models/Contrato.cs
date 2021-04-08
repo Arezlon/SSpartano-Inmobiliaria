@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SSpartanoInmobiliaria.Models
 {
-    public class Contrato //v
+    public class Contrato
     {
         [Display(Name = "Código")]
         public int Id { get; set; }
