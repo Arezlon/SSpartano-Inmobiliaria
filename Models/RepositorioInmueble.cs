@@ -85,6 +85,25 @@ namespace SSpartanoInmobiliaria.Models
 			}
 			return res;
 		}
+
+		public int CambiarDisponibilidad(int id, int disp)
+		{
+			int res = -1;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"UPDATE Inmuebles SET Disponible = @disp WHERE Id = @id";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.CommandType = CommandType.Text;
+					command.Parameters.AddWithValue("@disp", disp);
+					command.Parameters.AddWithValue("@id", id);
+					connection.Open();
+					res = command.ExecuteNonQuery();
+					connection.Close();
+				}
+			}
+			return res;
+		}
 		public IList<Inmueble> ObtenerTodos()
 		{
 			IList<Inmueble> res = new List<Inmueble>();
@@ -110,7 +129,7 @@ namespace SSpartanoInmobiliaria.Models
 							Ambientes = reader.GetInt32(5),
 							Precio = reader.GetInt32(6),
 							Estado = reader.GetInt32(7),
-							Disponible = reader.GetInt32(15),
+							Disponible = reader.GetInt32(16),
 							Propietario = new Propietario
 							{
 								Id = reader.GetInt32(8),

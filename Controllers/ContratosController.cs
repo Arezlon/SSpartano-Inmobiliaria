@@ -48,6 +48,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 rc.Alta(c);
+                ri.CambiarDisponibilidad(c.InmuebleId, 0);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
