@@ -47,7 +47,9 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"UPDATE Inmuebles SET Estado = 0 WHERE Id = @id; UPDATE Contratos SET Estado = 0 WHERE InmuebleId = @id";
+				//Ver que hacer con el estado de los contratos
+				//UPDATE Inmuebles SET Estado = 0 WHERE Id = @id; UPDATE Contratos SET Estado = 0 WHERE InmuebleId = @id
+				string sql = $"UPDATE Inmuebles SET Estado = 0 WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;

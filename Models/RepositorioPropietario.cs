@@ -45,7 +45,7 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				//EDITAR O MEJORAR ESTO y cambiar tambien estado de contratos (propietarios > inmuebles > contratos)
+				//EDITAR O MEJORAR ESTO y ¿Cambiar tambien estado de contratos?
 				string sql = $"UPDATE Propietarios SET Estado = 0 WHERE Id = @id; UPDATE Inmuebles SET Estado = 0 WHERE PropietarioId = @id;";
 				
 				using (SqlCommand command = new SqlCommand(sql, connection))

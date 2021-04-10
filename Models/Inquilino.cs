@@ -10,9 +10,9 @@ namespace SSpartanoInmobiliaria.Models
     {
 		[Display(Name = "Código")]
 		public int Id { get; set; }
-		[Required(ErrorMessage = "Campo obligatorio"), StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo"), DataType(DataType.Text)]
+		[Required(ErrorMessage = "Campo obligatorio"), StringLength(22, MinimumLength = 3, ErrorMessage = "3 caracteres mínimo, 22 máximo"), DataType(DataType.Text)]
 		public string Nombre { get; set; }
-		[Required(ErrorMessage = "Campo obligatorio"), StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo"), DataType(DataType.Text)]
+		[Required(ErrorMessage = "Campo obligatorio"), StringLength(22, MinimumLength = 3, ErrorMessage = "3 caracteres mínimo, 22 máximo"), DataType(DataType.Text)]
 		public string Apellido { get; set; }
 		[Display(Name = "DNI"), Required(ErrorMessage = "Campo obligatorio"), StringLength(8, MinimumLength = 8, ErrorMessage = "Ingrese un número de DNI válido (8 caracteres)"), DataType(DataType.Text)]
 		public string Dni { get; set; }
@@ -22,9 +22,9 @@ namespace SSpartanoInmobiliaria.Models
 		public string Telefono { get; set; }
 		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Lugar de trabajo"), StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo"), DataType(DataType.Text)]
 		public string LugarTrabajo { get; set; }
-		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Nombre del garante"), StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo"), DataType(DataType.Text)]
+		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Nombre del garante"), StringLength(22, MinimumLength = 3, ErrorMessage = "3 caracteres mínimo, 22 máximo"), DataType(DataType.Text)]
 		public string GaranteNombre { get; set; }
-		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Apellido del garante"),StringLength(16, MinimumLength = 6, ErrorMessage = "6 caracteres mínimo, 16 máximo"), DataType(DataType.Text)]
+		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "Apellido del garante"),StringLength(22, MinimumLength = 3, ErrorMessage = "3 caracteres mínimo, 22 máximo"), DataType(DataType.Text)]
 		public string GaranteApellido { get; set; }
 		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "DNI del garante"), StringLength(8, MinimumLength = 8, ErrorMessage = "Ingrese un número de DNI válido (8 caracteres)"), DataType(DataType.Text)]
 		public string GaranteDni { get; set; }
