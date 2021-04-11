@@ -1,0 +1,53 @@
+﻿@model IEnumerable<SSpartanoInmobiliaria.Models.Pago>
+
+@{
+    ViewData["Title"] = "Pagos";
+}
+
+<h1>Pagos del Contrato #@ViewData["ContratoId"] </h1>
+<p>
+    <a asp-route-ContratoId="@ViewData["ContratoId"]" class="float-right" asp-action="Create"><i class="fas fa-plus"></i> Crear nuevo</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                Importe
+            </th>
+            <th>
+                Inmueble
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contrato.Inmueble.Precio)
+            </td>
+            <td>
+                @item.Contrato.Inmueble.ToString()
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-eye"></i></a>
+                <!--<a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>-->
+                <!--<a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>-->
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

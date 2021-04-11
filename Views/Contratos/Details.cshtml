@@ -49,5 +49,6 @@
 </div>
 <div>
     @Html.ActionLink("Editar", "Edit", new { Id = Model.Id }) |
-    <a asp-action="Index">Volver a la lista</a>
+    <a asp-action="Index">Volver a la lista</a> |
+    <a asp-route-ContratoId="@Model.Id" asp-controller="Pagos" asp-action="Index">Pagos</a>
 </div>
