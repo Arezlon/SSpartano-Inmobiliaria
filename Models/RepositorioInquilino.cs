@@ -97,8 +97,8 @@ namespace SSpartanoInmobiliaria.Models
 			IList<Inquilino> res = new List<Inquilino>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, LugarTrabajo, GaranteNombre, GaranteApellido, GaranteDni, GaranteTelefono, GaranteEmail" +
-					$" FROM Inquilinos WHERE Estado = 1";
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, LugarTrabajo, GaranteNombre, GaranteApellido, GaranteDni, GaranteTelefono, GaranteEmail, Estado" +
+					$" FROM Inquilinos WHERE Estado != 0";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -120,6 +120,7 @@ namespace SSpartanoInmobiliaria.Models
 							GaranteDni = reader.GetString(9),
 							GaranteTelefono = reader.GetString(10),
 							GaranteEmail = reader.GetString(11),
+							Estado = reader.GetInt32(12),
 						};
 						res.Add(i);
 					}

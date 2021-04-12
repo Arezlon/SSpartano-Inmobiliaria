@@ -65,8 +65,15 @@ namespace SSpartanoInmobiliaria.Controllers
                 ViewBag.Mensaje = TempData["Mensaje"];
             if (TempData.ContainsKey("Error"))
                 ViewBag.Error = TempData["Error"];
-            ViewData["ListaInmuebles"] = ri.ObtenerDisponibles();
-            ViewData["ListaInquilinos"] = riq.ObtenerTodos();
+            IList<Inmueble> Inmuebles = ri.ObtenerDisponibles();
+            Inmuebles.Insert(0, c.Inmueble);
+            ViewData["ListaInmuebles"] = Inmuebles;
+
+            IList<Inquilino> Inquilinos = riq.ObtenerTodos();
+            if(c.Inquilino.Estado != 1)
+                Inquilinos.Insert(0, c.Inquilino);
+            ViewData["ListaInquilinos"] = Inquilinos;
+
             return View(c);
         }
 

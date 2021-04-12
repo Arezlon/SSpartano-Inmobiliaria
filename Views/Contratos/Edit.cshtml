@@ -18,6 +18,9 @@
                     @foreach (var i in ViewData["ListaInmuebles"] as List<Inmueble>)
                     {
                         <option value="@i.Id">
+                            @if(i.Estado != 1) {
+                            <span>[Eliminado]</span>
+                             }
                             @i.ToString()
                         </option>
                     }
@@ -31,6 +34,9 @@
                     @foreach (var i in ViewData["ListaInquilinos"] as List<Inquilino>)
                     {
                         <option value="@i.Id">
+                            @if(i.Estado != 1) {
+                            <span>[Eliminado]</span>
+                             }
                             @i.ToString()
                         </option>
                     }
