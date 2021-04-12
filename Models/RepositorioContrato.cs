@@ -138,7 +138,7 @@ namespace SSpartanoInmobiliaria.Models
 			{
 				//string sql = $"SELECT Id, InmuebleId, InquilinoId, FechaInicio, FechaFin FROM Contratos" +
 				//	$" WHERE Id = @id";
-				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido " +
+				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado " +
 					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -155,24 +155,27 @@ namespace SSpartanoInmobiliaria.Models
 							InquilinoId = reader.GetInt32(2),
 							FechaInicio = reader.GetDateTime(3),
 							FechaFin = reader.GetDateTime(4),
-							//Estado = reader.GetInt32(5),
+							Estado = reader.GetInt32(5),
 							Inmueble = new Inmueble
 							{
 								Id = reader.GetInt32(6),
 								Direccion = reader.GetString(7),
 								Uso = reader.GetString(8),
+								Estado = reader.GetInt32(15),
 							},
 							Inquilino = new Inquilino
 							{
 								Id = reader.GetInt32(9),
 								Nombre = reader.GetString(10),
 								Apellido = reader.GetString(11),
+								Estado = reader.GetInt32(16),
 							},
 							Propietario = new Propietario
 							{
 								Id = reader.GetInt32(12),
 								Nombre = reader.GetString(13),
 								Apellido = reader.GetString(14),
+								Estado = reader.GetInt32(17),
 							}
 						};
 					}
