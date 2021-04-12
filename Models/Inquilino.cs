@@ -32,6 +32,7 @@ namespace SSpartanoInmobiliaria.Models
 		public string GaranteTelefono { get; set; }
 		[Required(ErrorMessage = "Campo obligatorio"), Display(Name = "E-mail del garante"), EmailAddress(ErrorMessage = "Ingrese un e-mail válido")]
 		public string GaranteEmail { get; set; }
+		public int Estado { get; set; }
 		public override string ToString()
 		{
 			return Apellido + " " + Nombre + " (Cód: " + Id + ")";

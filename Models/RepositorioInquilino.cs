@@ -50,8 +50,8 @@ namespace SSpartanoInmobiliaria.Models
 		{
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
-			{
-				string sql = $"UPDATE Inquilinos SET Estado = 0 WHERE Id = @id; UPDATE Contratos SET Estado = 0 WHERE InquilinoId = @id;";
+			{   // Contratos 0?
+				string sql = $"UPDATE Inquilinos SET Estado = 0 WHERE Id = @id;";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -134,7 +134,7 @@ namespace SSpartanoInmobiliaria.Models
 			Inquilino i = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, LugarTrabajo, GaranteNombre, GaranteApellido, GaranteDni, GaranteTelefono, GaranteEmail" +
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, LugarTrabajo, GaranteNombre, GaranteApellido, GaranteDni, GaranteTelefono, GaranteEmail, Estado" +
 					$" FROM Inquilinos WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -158,6 +158,7 @@ namespace SSpartanoInmobiliaria.Models
 							GaranteDni = reader.GetString(9),
 							GaranteTelefono = reader.GetString(10),
 							GaranteEmail = reader.GetString(11),
+							Estado = reader.GetInt32(12),
 						};
 					}
 					connection.Close();

@@ -139,6 +139,7 @@ namespace SSpartanoInmobiliaria.Models
 								Telefono = reader.GetString(12),
 								Email = reader.GetString(13),
 								Clave = reader.GetString(14),
+								Estado = reader.GetInt32(15),
 							}
 					};
 						res.Add(i);
@@ -175,7 +176,7 @@ namespace SSpartanoInmobiliaria.Models
 							Ambientes = reader.GetInt32(5),
 							Precio = reader.GetInt32(6),
 							Estado = reader.GetInt32(7),
-							Disponible = reader.GetInt32(15),
+							Disponible = reader.GetInt32(16),
 							Propietario = new Propietario
 							{
 								Id = reader.GetInt32(8),
@@ -185,6 +186,7 @@ namespace SSpartanoInmobiliaria.Models
 								Telefono = reader.GetString(12),
 								Email = reader.GetString(13),
 								Clave = reader.GetString(14),
+								Estado = reader.GetInt32(15),
 							}
 						};
 						res.Add(i);

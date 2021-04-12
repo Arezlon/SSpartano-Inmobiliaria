@@ -37,9 +37,18 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
+                    @if (item.Inmueble.Estado != 1)
+                    {
+                    <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+                    }
                     @item.Inmueble.ToString()
+
                 </td>
                 <td>
+                    @if (item.Inquilino.Estado != 1)
+                    {
+                        <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+                    }
                     @item.Inquilino.ToString()
                 </td>
                 <td>

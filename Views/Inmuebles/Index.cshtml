@@ -45,6 +45,10 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
+                @if (item.Propietario.Estado != 1)
+                {
+                    <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+                }
                 @item.Propietario.ToString()
             </td>
             <td>

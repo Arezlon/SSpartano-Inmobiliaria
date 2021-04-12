@@ -27,6 +27,8 @@ namespace SSpartanoInmobiliaria.Models
 
         [Required, DataType(DataType.Password), StringLength(16, MinimumLength = 8, ErrorMessage = "8 caracteres mínimo, 16 máximo")]
         public string Clave { get; set; }
+
+        public int Estado { get; set; }
         public override string ToString()
         {
             return Apellido + " " + Nombre + " (Cód: " + Id + ")";
