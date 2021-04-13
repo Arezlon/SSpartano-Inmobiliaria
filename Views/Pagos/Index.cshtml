@@ -31,13 +31,13 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                #@Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Fecha)
+                @item.Fecha.ToShortDateString()
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Contrato.Inmueble.Precio)
+                $@Html.DisplayFor(modelItem => item.Contrato.Inmueble.Precio)
             </td>
             <td>
                 @item.Contrato.Inmueble.ToString()

@@ -103,10 +103,13 @@ namespace SSpartanoInmobiliaria.Models
 
 		virtual public Pago ObtenerPorId(int id)
 		{
+			RepositorioInmueble ri = new RepositorioInmueble(configuration);
+			RepositorioInquilino rinq = new RepositorioInquilino(configuration);
 			Pago p = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, ContratoId, Fecha FROM Pagos WHERE Estado = 1 AND Id = @id";
+				//string sql = $"SELECT Id, ContratoId, Fecha FROM Pagos WHERE Estado = 1 AND Id = @id";
+				string sql = $"SELECT Pagos.Id, ContratoId, Fecha, cn.Id, cn.InmuebleId, cn.InquilinoId, cn.FechaInicio, cn.FechaFin FROM Pagos JOIN Contratos AS cn ON Pagos.ContratoId = cn.Id WHERE Pagos.Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -120,6 +123,16 @@ namespace SSpartanoInmobiliaria.Models
 							Id = reader.GetInt32(0),
 							ContratoId = reader.GetInt32(1),
 							Fecha = reader.GetDateTime(2),
+							Contrato = new Contrato
+							{
+								Id = reader.GetInt32(3),
+								InmuebleId = reader.GetInt32(4),
+								InquilinoId = reader.GetInt32(5),
+								FechaInicio = reader.GetDateTime(6),
+								FechaFin = reader.GetDateTime(7),
+								Inmueble = ri.ObtenerPorId(reader.GetInt32(4)),
+								Inquilino = rinq.ObtenerPorId(reader.GetInt32(5)),
+							}
 						};
 					}
 					connection.Close();
@@ -131,6 +144,7 @@ namespace SSpartanoInmobiliaria.Models
 		public IList<Pago> ObtenerPorContrato(int idC)
 		{
 			RepositorioInmueble ri = new RepositorioInmueble(configuration);
+			RepositorioInquilino rinq = new RepositorioInquilino(configuration);
 			IList<Pago> res = new List<Pago>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
@@ -159,6 +173,7 @@ namespace SSpartanoInmobiliaria.Models
 								FechaInicio = reader.GetDateTime(6),
 								FechaFin = reader.GetDateTime(7),
 								Inmueble = ri.ObtenerPorId(reader.GetInt32(4)),
+								Inquilino = rinq.ObtenerPorId(reader.GetInt32(5)),
 							}
 						};
 						res.Add(p);

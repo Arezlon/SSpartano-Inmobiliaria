@@ -13,19 +13,48 @@
             @Html.DisplayNameFor(model => model.Id)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+           #@Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ContratoId)
+        </dt>
+        <dd class="col-sm-10">
+            #@Html.DisplayFor(model => model.ContratoId)
+        </dd>
+        <dt class="col-sm-2">
+            Importe
+        </dt>
+        <dd class="col-sm-10">
+            $@Html.DisplayFor(model => model.Contrato.Inmueble.Precio)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Fecha.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            Inquilino
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Contrato.Inquilino.Estado != 1)
+            {
+                <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+            }
+            @Model.Contrato.Inquilino.ToString()
+        </dd>
+        <dt class="col-sm-2">
+            Inmueble
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Contrato.Inmueble.Estado != 1)
+            {
+                <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+            }
+            @Model.Contrato.Inmueble.ToString()
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Editar", "Edit", new { Id = Model.Id }) |
     <a asp-route-ContratoId="@Model.ContratoId" asp-action="Index">Volver a la lista</a>
 </div>
-
-<!--
-    1 ID PAGO
-    2 FECHA
-    3 CONTRATO
-    4 VALOR
-    5 ¿MES?
--->
