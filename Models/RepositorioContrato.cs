@@ -184,5 +184,28 @@ namespace SSpartanoInmobiliaria.Models
 			}
 			return c;
 		}
+
+		virtual public int TotalPagos(int id)
+		{
+			int TotalPagos = -1;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"SELECT COUNT(Id) FROM Pagos WHERE ContratoId = @id";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					if (reader.Read())
+					{
+						TotalPagos = reader.GetInt32(0);
+					}
+					connection.Close();
+				}
+			}
+			return TotalPagos;
+		}
+
 	}
 }

@@ -34,6 +34,7 @@ namespace SSpartanoInmobiliaria.Controllers
 
         public ActionResult Details(int id)
         {
+            ViewData["TotalPagos"] = rc.TotalPagos(id);
             return View(rc.ObtenerPorId(id));
         }
 
@@ -50,9 +51,30 @@ namespace SSpartanoInmobiliaria.Controllers
         {
             try
             {
+                //int diferenciaMeses = ((c.FechaFin.Year - c.FechaInicio.Year) * 12) + c.FechaFin.Month - c.FechaInicio.Month;
+
+                c.FechaFin = DateTime.Parse(c.FechaFin.ToString()).AddDays(c.FechaInicio.Day - 1);
+
+                if (c.FechaInicio.Day > 28)
+                {
+                    switch (c.FechaFin.Month)
+                    {
+                        case 3:
+                            c.FechaFin = new DateTime(c.FechaFin.Year, 2, DateTime.IsLeapYear(c.FechaFin.Year) ? 29 : 28);
+                            break;
+                        case 5:
+                        case 7:
+                        case 10:
+                        case 12:
+                            if (c.FechaInicio.Day > 30)
+                                c.FechaInicio = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
+                            break;
+                    }
+                }
                 rc.Alta(c);
                 ri.CambiarDisponibilidad(c.InmuebleId, 0);
                 return RedirectToAction(nameof(Index));
+
             }
             catch (Exception e)
             {
@@ -73,7 +95,7 @@ namespace SSpartanoInmobiliaria.Controllers
             ViewData["ListaInmuebles"] = Inmuebles;
 
             IList<Inquilino> Inquilinos = riq.ObtenerTodos();
-            if(c.Inquilino.Estado != 1)
+            if (c.Inquilino.Estado != 1)
                 Inquilinos.Insert(0, c.Inquilino);
             ViewData["ListaInquilinos"] = Inquilinos;
 

@@ -1,8 +1,16 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-$(function () {
+﻿$(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
+
+$(document).ready(function () {
+    $('#FechaInicio').change(function () {
+        var date = new Date($('#FechaInicio').val());
+        var month = ("0" + (date.getMonth() + 2)).slice(-2)
+        var year = date.getFullYear();
+
+        $('#FechaFin').val([year, month].join('-'));
+        $('#FechaFin').attr({
+            "min": [year, month].join('-')
+        });
+    });
+});

@@ -4,10 +4,12 @@
     ViewData["Title"] = "Detalles Contrato";
 }
 
-<h1>Detalles</h1>
+<h1>Detalles del contrato</h1>
 <div>
-    <h4>Contratos</h4>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_renovar">Renovar</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_cancelar">Cancelar</button>
     <hr />
+
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
@@ -63,4 +65,50 @@
     @Html.ActionLink("Editar", "Edit", new { Id = Model.Id }) |
     <a asp-action="Index">Volver a la lista</a> |
     <a asp-route-ContratoId="@Model.Id" asp-controller="Pagos" asp-action="Index">Pagos</a>
+</div>
+
+
+<!-- Modal renovación -->
+<div class="modal fade" id="m_renovar" tabindex="-1" role="dialog" aria-labelledby="m_renovar" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Renovar contrato #@Html.DisplayFor(model => model.Id)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-success">Renovar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal cancelación -->
+<div class="modal fade" id="m_cancelar" tabindex="-1" role="dialog" aria-labelledby="m_cancelar" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancelar contrato #@Html.DisplayFor(model => model.Id)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                PAGOS:
+                @ViewData["TotalPagos"] <span>/</span>
+                @Model.MesesTotales
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                <button type="button" class="btn btn-danger">Cancelar</button>
+            </div>
+        </div>
+    </div>
 </div>
