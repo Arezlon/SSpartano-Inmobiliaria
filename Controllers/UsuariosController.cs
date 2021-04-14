@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,12 +26,14 @@ namespace SSpartanoInmobiliaria.Controllers
             this.c = c;
         }
 
+        [Authorize(Policy = "Administrador")]
         public ActionResult Index()
         {
             var lista = ru.ObtenerTodos();
             return View(lista);
         }
 
+        [Authorize(Policy = "Administrador")]
         public ActionResult Details(int id)
         {
             return View(ru.ObtenerPorId(id));
@@ -41,6 +44,7 @@ namespace SSpartanoInmobiliaria.Controllers
             return View();
         }
 
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Usuario u)
@@ -56,18 +60,19 @@ namespace SSpartanoInmobiliaria.Controllers
                 u.TipoCuenta = 0;
                 ru.Alta(u);
                 return RedirectToAction(nameof(Index));
-                //Importante redirigir a dónde?
+                //Importante, redirigir a dónde?
             }
             catch (Exception e)
             {
                 //ViewData["Error"] = e.Message;
                 ViewData["Error"] = "Error desconocido";
                 if (e is SqlException && ((SqlException)e).Number == 2627)
-                    ViewData["Error"] =  "Error de registro, email usado";
+                    ViewData["Error"] =  "Error de registro, email usado por otro usuario";
                 return View();
             }
         }
 
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             var u = ru.ObtenerPorId(id);
@@ -76,6 +81,7 @@ namespace SSpartanoInmobiliaria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             Usuario u = null;
@@ -98,6 +104,7 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             var u = ru.ObtenerPorId(id);
@@ -106,11 +113,37 @@ namespace SSpartanoInmobiliaria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Usuario u)
         {
             try
             {
                 ru.Baja(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(u);
+            }
+        }
+
+        [Authorize(Policy = "Administrador")]
+        public ActionResult Restore(int id)
+        {
+            var u = ru.ObtenerPorId(id);
+            return View(u);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
+        public ActionResult Restore(int id, Usuario u)
+        {
+            try
+            {
+                ru.Restaurar(id);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -150,7 +183,7 @@ namespace SSpartanoInmobiliaria.Controllers
                     List<Claim> claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, u.Email),
-                        //agregar tipo de cuenta?
+                        new Claim(ClaimTypes.Role, u.TipoCuentaNombre)
                     };
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
@@ -166,6 +199,7 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
+        [Authorize(Policy = "Empleado")]
         public async Task<ActionResult> Logout()
         {
             await HttpContext.SignOutAsync(

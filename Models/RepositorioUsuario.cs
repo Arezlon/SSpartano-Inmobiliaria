@@ -57,19 +57,41 @@ namespace SSpartanoInmobiliaria.Models
 			}
 			return res;
 		}
+
+		public int Restaurar(int id)
+		{
+			int res = -1;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"UPDATE Usuarios SET Estado = 1 WHERE Id = @Id;";
+
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.CommandType = CommandType.Text;
+					command.Parameters.AddWithValue("@Id", id);
+					connection.Open();
+					res = command.ExecuteNonQuery();
+					connection.Close();
+				}
+			}
+			return res;
+		}
+
 		public int Modificacion(Usuario u)
 		{
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"UPDATE Usuarios SET Nombre=@Nombre, Apellido=@Apellido, Dni=@dni, Email=@Email WHERE Id = @id";
+				string sql = $"UPDATE Usuarios SET Nombre=@Nombre, Apellido=@Apellido, Email=@Email, TipoCuenta=@TipoCuenta WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
 					command.Parameters.AddWithValue("@Nombre", u.Nombre);
 					command.Parameters.AddWithValue("@Apellido", u.Apellido);
 					command.Parameters.AddWithValue("@Email", u.Email);
+					command.Parameters.AddWithValue("TipoCuenta", u.TipoCuenta);
 					//command.Parameters.AddWithValue("@Clave", u.Clave);
+					command.Parameters.AddWithValue("@id", u.Id);
 					connection.Open();
 					res = command.ExecuteNonQuery();
 					connection.Close();
@@ -82,7 +104,7 @@ namespace SSpartanoInmobiliaria.Models
 			IList<Usuario> res = new List<Usuario>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Email, TipoCuenta FROM Usuarios WHERE Estado = 1";
+				string sql = $"SELECT Id, Nombre, Apellido, Email, TipoCuenta, Estado FROM Usuarios";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -97,6 +119,7 @@ namespace SSpartanoInmobiliaria.Models
 							Apellido = reader.GetString(2),
 							Email = reader.GetString(3),
 							TipoCuenta = reader.GetInt32(4),
+							Estado = reader.GetInt32(5),
 						};
 						res.Add(u);
 					}

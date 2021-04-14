@@ -35,15 +35,15 @@ namespace SSpartanoInmobiliaria
                 });
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Administrador", policy =>
-                policy.RequireClaim(ClaimTypes.Role, "Administrador")
-                );
+                options.AddPolicy("Administrador", policy => policy.RequireClaim(ClaimTypes.Role, "Administrador"));
+                options.AddPolicy("Empleado", policy => policy.RequireClaim(ClaimTypes.Role, "Empleado", "Administrador"));
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

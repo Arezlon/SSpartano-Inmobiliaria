@@ -35,23 +35,32 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-file-alt"></i> Informes</a>
                         </li>
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index"><i class="fas fa-users"></i> Usuarios</a>
+                            </li>
+                        }
                     </ul>
-                    @if (User.Identity.IsAuthenticated) {
-                    <ul class="navbar-nav float-right">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
-                        </li>
-                    </ul>
-                    } else {
-                    <div class="flex-grow-1"></div>
-                    <ul class="navbar-nav float-right">
-                        <li class="nav-item ">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Login"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Create"><i class="fas fa-user-plus"></i> Registrarse</a>
-                        </li>
-                    </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav float-right">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="flex-grow-1"></div>
+                        <ul class="navbar-nav float-right">
+                            <li class="nav-item ">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Login"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Create"><i class="fas fa-user-plus"></i> Registrarse</a>
+                            </li>
+                        </ul>
                     }
                 </div>
             </div>

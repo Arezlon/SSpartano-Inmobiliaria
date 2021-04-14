@@ -1,10 +1,10 @@
 ﻿@model SSpartanoInmobiliaria.Models.Usuario
 
 @{
-    ViewData["Title"] = "Baja Usuario";
+    ViewData["Title"] = "Restaurar Usuario";
 }
 
-<h1>Baja</h1>
+<h1>Restaurar</h1>
 <div>
     <h4>Usuario</h4>
     <hr />
@@ -41,10 +41,11 @@
         </dd>
     </dl>
     <hr />
-    <h5>¿Está seguro de querer eliminar el usuario @Model.Apellido @Model.Nombre (ID: #@Model.Id)?</h5>
+    <h5>¿Está seguro de querer restaurar el usuario @Model.Apellido @Model.Nombre (ID: #@Model.Id)?</h5>
+    <h6><i class='fas fa-exclamation-triangle'></i> Esta acción le permitirá al mismo acceder nuevamente al sistema.</h6>
 
-    <form asp-action="Delete">
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+    <form asp-action="Restore">
+        <input type="submit" value="Restaurar" class="btn btn-success" /> |
         <a asp-action="Index">Volver a la lista</a>
     </form>
 </div>

@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using SSpartanoInmobiliaria.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SSpartanoInmobiliaria.Controllers
 {
+    [Authorize(Policy = "Empleado")]
     public class PropietariosController : Controller
     {
         private readonly IConfiguration c;
@@ -90,7 +92,7 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
-        // GET: Propietario/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             var p = rp.ObtenerPorId(id);
@@ -104,6 +106,7 @@ namespace SSpartanoInmobiliaria.Controllers
         // POST: Propietario/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Propietario entidad)
         {
             try

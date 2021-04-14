@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SSpartanoInmobiliaria.Models;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace SSpartanoInmobiliaria.Controllers
 {
+    [Authorize(Policy = "Empleado")]
     public class InmueblesController : Controller
     {
         private readonly IConfiguration c;
@@ -92,6 +94,7 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             var i = ri.ObtenerPorId(id);
@@ -104,6 +107,7 @@ namespace SSpartanoInmobiliaria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Inmueble e)
         {
             try
