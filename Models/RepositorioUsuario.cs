@@ -135,5 +135,36 @@ namespace SSpartanoInmobiliaria.Models
 			}
 			return u;
 		}
+
+		virtual public Usuario ObtenerPorEmail(string email)
+		{
+			Usuario u = null;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"SELECT Id, Nombre, Apellido, Email, TipoCuenta, Estado, Clave FROM Usuarios WHERE Email = @Email";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.Parameters.Add("@Email", SqlDbType.VarChar).Value = email;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					if (reader.Read())
+					{
+						u = new Usuario
+						{
+							Id = reader.GetInt32(0),
+							Nombre = reader.GetString(1),
+							Apellido = reader.GetString(2),
+							Email = reader.GetString(3),
+							TipoCuenta = reader.GetInt32(4),
+							Estado = reader.GetInt32(5),
+							Clave = reader.GetString(6),
+						};
+					}
+					connection.Close();
+				}
+			}
+			return u;
+		}
 	}
 }

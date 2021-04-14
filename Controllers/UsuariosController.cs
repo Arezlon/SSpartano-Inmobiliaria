@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -46,9 +47,16 @@ namespace SSpartanoInmobiliaria.Controllers
         {
             try
             {
+                u.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: u.Clave,
+                        salt: System.Text.Encoding.ASCII.GetBytes(c["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 700,
+                        numBytesRequested: 256 / 8));
                 u.TipoCuenta = 0;
                 ru.Alta(u);
                 return RedirectToAction(nameof(Index));
+                //Importante redirigir a dónde?
             }
             catch (Exception e)
             {
@@ -113,21 +121,56 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
-        public async Task<IActionResult> Login()
+        public ActionResult Login()
         {
-            var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, "id"),
-                        new Claim(ClaimTypes.Role, "tipo"),
-                    };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity));
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(IFormCollection collection)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: collection["Clave"],
+                        salt: System.Text.Encoding.ASCII.GetBytes(c["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 700,
+                        numBytesRequested: 256 / 8));
+
+                    Usuario u = ru.ObtenerPorEmail(collection["Email"].ToString());
+                    if (u == null || u.Clave != hashed)
+                    {
+                        ViewData["Error"] = "Datos de inicio de sesión incorrectos.";
+                        return View();
+                    }
+                    List<Claim> claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, u.Email),
+                        //agregar tipo de cuenta?
+                    };
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                    return RedirectToAction("Index", "Home");
+                }
+                throw new Exception("Error");
+            }
+            catch (Exception ex)
+            {
+                ViewData["Error"] = ex.Message;
+                return View();
+            }
+        }
+
+        public async Task<ActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
     }
 

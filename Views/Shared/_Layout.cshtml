@@ -36,14 +36,13 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-file-alt"></i> Informes</a>
                         </li>
                     </ul>
-                    <!-- Si hay sesión
+                    @if (User.Identity.IsAuthenticated) {
                     <ul class="navbar-nav float-right">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
                         </li>
-                    </ul>-->
-
-                    <!-- Si no hay sesión-->
+                    </ul>
+                    } else {
                     <div class="flex-grow-1"></div>
                     <ul class="navbar-nav float-right">
                         <li class="nav-item ">
@@ -53,7 +52,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Create"><i class="fas fa-user-plus"></i> Registrarse</a>
                         </li>
                     </ul>
-                    <!-- FIN-->
+                    }
                 </div>
             </div>
         </nav>
