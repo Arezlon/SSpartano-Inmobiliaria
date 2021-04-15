@@ -28,6 +28,7 @@ namespace SSpartanoInmobiliaria.Models
         [Display(Name = "Estado")]
         public int Disponible { get; set; }
         public int Estado { get; set; }
+        //ESTADOS (0 Eliminado - 1 Activo - 2 Oculto)
         public Propietario Propietario { get; set; }
         public override string ToString()
         {

@@ -34,8 +34,19 @@ namespace SSpartanoInmobiliaria.Controllers
 
         public ActionResult Details(int id)
         {
-            ViewData["TotalPagos"] = rc.TotalPagos(id);
-            return View(rc.ObtenerPorId(id));
+            int totalPagos = rc.TotalPagos(id);
+            Contrato contrato = rc.ObtenerPorId(id);
+
+            DateTime ProximoPago = contrato.FechaInicio.AddMonths(totalPagos);
+            contrato.ProximoPago = ProximoPago;
+
+            ViewData["TotalPagos"] = totalPagos;
+            if(ProximoPago > DateTime.Now)
+                contrato.EstadoPagos = 1;
+            else
+                contrato.EstadoPagos = 2;
+
+            return View(contrato);
         }
 
         public ActionResult Create()

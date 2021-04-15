@@ -28,5 +28,8 @@ namespace SSpartanoInmobiliaria.Models
         public Inquilino Inquilino { get; set; }
         public Propietario Propietario { get; set; }
         public int MesesTotales => ((FechaFin.Year - FechaInicio.Year) * 12) + FechaFin.Month - FechaInicio.Month;
+        public int EstadoPagos { get; set; }
+        //ESTADOS DE PAGOS (1 Al dia, 2 Vencido)
+        public DateTime ProximoPago;
     }
 }
