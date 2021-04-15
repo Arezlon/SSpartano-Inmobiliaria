@@ -6,7 +6,7 @@
 
 <h1>Detalles del contrato</h1>
 <div>
-    <button type="button" @Html.Encode((int)ViewData["TotalPagos"] == Model.MesesTotales && Model.Estado == 0 ? "" : "disabled") class="btn btn-outline-dark" data-toggle="modal" data-target="#m_renovar">Renovar</button>
+    <button type="button" @Html.Encode((int)ViewData["TotalPagos"] == Model.MesesTotales && Model.Estado == 1 ? "" : "disabled") class="btn btn-outline-dark" data-toggle="modal" data-target="#m_renovar">Renovar</button>
     <button type="button" @Html.Encode(Model.Estado == 1 ? "" : "disabled") class="btn btn-outline-dark" data-toggle="modal" data-target="#m_cancelar">Cancelar</button>
     <hr />
 
@@ -58,6 +58,16 @@
         </dt>
         <dd class="col-sm-10">
             @Model.FechaFin.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            Pagos realizados
+        </dt>
+        <dd class="col-sm-10">
+            <p>
+                @ViewData["TotalPagos"]
+                <span>de</span>
+                @Model.MesesTotales
+            </p>
         </dd>
     </dl>
 </div>

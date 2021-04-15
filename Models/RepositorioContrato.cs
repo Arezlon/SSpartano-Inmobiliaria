@@ -156,7 +156,7 @@ namespace SSpartanoInmobiliaria.Models
 			{
 				//string sql = $"SELECT Id, InmuebleId, InquilinoId, FechaInicio, FechaFin FROM Contratos" +
 				//	$" WHERE Id = @id";
-				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado " +
+				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado, inm.Precio " +
 					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -180,6 +180,7 @@ namespace SSpartanoInmobiliaria.Models
 								Direccion = reader.GetString(7),
 								Uso = reader.GetString(8),
 								Estado = reader.GetInt32(15),
+								Precio = reader.GetInt32(18),
 							},
 							Inquilino = new Inquilino
 							{

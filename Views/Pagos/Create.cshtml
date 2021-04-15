@@ -5,27 +5,59 @@
     Contrato Contrato = (Contrato)ViewData["Contrato"];
 }
 
-<h1>Alta</h1>
-<h4>Pago</h4>
+<h1>Registro de pagos</h1>
+<h4>Contrato #@Contrato.Id</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ContratoId" class="control-label"></label>
-                <input readonly asp-for="ContratoId" value="@Contrato.Id"class="form-control" />
-                <span asp-validation-for="ContratoId" class="text-danger"></span>
+                <input type="hidden" readonly asp-for="ContratoId" value="@Contrato.Id" class="form-control" />
             </div>
+
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Inmueble
+                </dt>
+                <dd class="col-sm-10">
+                    @Contrato.Inmueble.ToString();
+                </dd>
+                <dt class="col-sm-2">
+                    Propietario
+                </dt>
+                <dd class="col-sm-10">
+                    @Contrato.Propietario.ToString();
+                </dd>
+                <dt class="col-sm-2">
+                    Inquilino
+                </dt>
+                <dd class="col-sm-10">
+                    @Contrato.Inquilino.ToString();
+                </dd>
+                <dt class="col-sm-2">
+                    Fecha inicio
+                </dt>
+                <dd class="col-sm-10">
+                    @Contrato.FechaInicio.ToShortDateString()
+                </dd>
+                <dt class="col-sm-2">
+                    Fecha final
+                </dt>
+                <dd class="col-sm-10">
+                    @Contrato.FechaFin.ToShortDateString()
+                </dd>
+            </dl>
+
+            <h5>¿Está seguro de querer registrar un pago para el contrato #@Contrato.Id con un importe de $@Contrato.Inmueble.Precio?</h5>
+            <h6><i class='fas fa-exclamation-triangle'></i> Se realizaron @ViewData["PagosRealizados"] pagos del total de @Contrato.MesesTotales necesarios para cumplir el contrato.</h6>
+            <hr />
             <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
+                <input type="submit" value="Pagar" class="btn btn-sm btn-outline-success" />
+                <a class="btn btn-sm btn-outline-dark" asp-route-ContratoId="@Contrato.Id" asp-action="Index">Volver a la lista</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-route-ContratoId="@Contrato.Id" asp-action="Index">Volver a la lista</a>
 </div>
 
 @section Scripts {
