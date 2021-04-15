@@ -6,7 +6,7 @@
 
 <h1>Detalles</h1>
 <div>
-    <h4>inquilino</h4>
+    <h4>Inquilino</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -51,39 +51,44 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LugarTrabajo)
         </dd>
+    </dl>
+    <hr />
+    <h5>Detalles del garante</h5>
+    <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GaranteNombre)
+            Nombre
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.GaranteNombre)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GaranteApellido)
+            Apellido
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.GaranteApellido)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GaranteDni)
+            DNI
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.GaranteDni)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GaranteTelefono)
+            Teléfono
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.GaranteTelefono)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.GaranteEmail)
+            Email
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.GaranteEmail)
         </dd>
     </dl>
 </div>
+<hr />
 <div>
-    @Html.ActionLink("Editar", "Edit", new { Id = Model.Id }) |
-    <a asp-action="Index">Volver a la lista</a>
+    <a class="btn btn-sm btn-outline-dark" asp-route-Id="@Model.Id" asp-controller="Inquilinos" asp-action="Edit">Editar</a>
+    <a class="btn btn-sm btn-outline-dark" asp-action="Index">Volver a la lista</a>
 </div>

@@ -55,11 +55,11 @@
                 @Html.DisplayFor(modelItem => item.Telefono)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
-                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Detalles" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
+                <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Editar" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
                 @if (User.IsInRole("Administrador"))
                 {
-                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
+                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Eliminar" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
                 }
             </td>
         </tr>
