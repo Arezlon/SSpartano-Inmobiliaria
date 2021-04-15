@@ -122,5 +122,35 @@ namespace SSpartanoInmobiliaria.Controllers
                 return View(e);
             }
         }
+
+        public ActionResult Hide(int id, Inmueble e)
+        {
+            try
+            {
+                ri.CambiarVisibilidad(id, 2);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View();
+            }
+        }
+
+        public ActionResult Show(int id, Inmueble e)
+        {
+            try
+            {
+                ri.CambiarVisibilidad(id, 1);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(e);
+            }
+        }
     }
 }

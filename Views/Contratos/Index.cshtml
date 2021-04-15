@@ -34,38 +34,37 @@
                     #@Html.DisplayFor(modelItem => item.Id)
                     @if (item.Estado == 2)
                     {
-                        <i data-toggle="tooltip" data-placement="bottom" title="Completado" class='fas fa-check-circle'></i>
+                        <i data-toggle="tooltip" data-placement="bottom" title="Completado" class='fas fa-check'></i>
                     }
                     else if (item.Estado == 0)
                     {
-                        <i data-toggle="tooltip" data-placement="bottom" title="Cancelado/Eliminado" class='fas fa-times-circle'></i>
+                        <i data-toggle="tooltip" data-placement="bottom" title="Cancelado/Eliminado" class='fas fa-times'></i>
                     }
                 </td>
                 <td>
+                    @item.Inmueble.ToString()
                     @if (item.Inmueble.Estado != 1)
                     {
-                    <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+                        <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
                     }
-                    @item.Inmueble.ToString()
-
                 </td>
                 <td>
+                    @item.Inquilino.ToString()
                     @if (item.Inquilino.Estado != 1)
                     {
                         <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
                     }
-                    @item.Inquilino.ToString()
                 </td>
                 <td>
                     @item.FechaFin.ToShortDateString()
                 </td>
                 <td>
                     <a class="btn btn-sm btn-outline-dark @Html.Encode(item.Estado != 1 ? "disabled" : "")" asp-route-ContratoId="@item.Id" asp-controller="Pagos" asp-action="Index"><i class="fas fa-money-bill-wave-alt"></i></a>
-                    <a class="btn btn-sm btn-outline-dark" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-eye"></i></a>
+                    <a class="btn btn-sm btn-outline-dark" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
                     <a class="btn btn-sm btn-outline-dark @Html.Encode(item.Estado != 1 ? "disabled" : "")" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
                     @if (User.IsInRole("Administrador"))
                     {
-                    <a class="btn btn-sm btn-outline-dark @Html.Encode(item.Estado != 1 ? "disabled" : "")" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
+                        <a class="btn btn-sm btn-outline-dark @Html.Encode(item.Estado != 1 ? "disabled" : "")" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
                     }
                 </td>
             </tr>

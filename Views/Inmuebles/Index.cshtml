@@ -39,45 +39,110 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @if (item.Propietario.Estado != 1)
-                {
-                    <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
-                }
-                @item.Propietario.ToString()
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Direccion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Uso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ambientes)
-            </td>
-            <td>
-                $@Html.DisplayFor(modelItem => item.Precio)
-            </td>
-            <td>
-                @(item.Disponible == 1 ? Html.Encode("Disponible") : Html.Encode("Ocupado"))
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-eye"></i></a>
-                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
-                @if (User.IsInRole("Administrador"))
-                {
-                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
-                }
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    #@Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @if (item.Propietario.Estado != 1)
+                    {
+                        <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+                    }
+                    @item.Propietario.ToString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Uso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ambientes)
+                </td>
+                <td>
+                    $@Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @(item.Disponible == 1 ? Html.Encode("Disponible") : Html.Encode("Ocupado"))
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Detalles" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
+                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Editar" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                    @if (item.Estado != 2)
+                    {
+                        <span data-toggle="modal" data-target="#m_ocultar">
+                            <button onclick="$('#ocultar').attr('href', 'Inmuebles/Hide/@item.Id'); $('#nInmuebleO, #nInmuebleO1').html(@item.Id)" data-toggle="tooltip" data-placement="bottom" title="Ocultar" type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-eye-slash"></i></button>
+                        </span>
+                    }
+                    else
+                    {
+                        <span data-toggle="modal" data-target="#m_mostrar">
+                            <button onclick="$('#mostrar').attr('href','Inmuebles/Show/@item.Id'); $('#nInmuebleM, #nInmuebleM1').html(@item.Id)" data-toggle="tooltip" data-placement="bottom" title="Mostrar" type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-eye"></i></button>
+                        </span>
+                    }
+
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Eliminar" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+<!-- Modal ocultar inmueble -->
+<div class="modal fade" id="m_ocultar" tabindex="-1" role="dialog" aria-labelledby="m_ocultar" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ocultar inmueble #<span id="nInmuebleO"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Seguro que desea ocultar el inmueble #<span id="nInmuebleO1"></span>? Este no será visible para ningún empleado.
+                </p>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-dark" data-dismiss="modal">Salir</button>
+                    <a id="ocultar" class="btn btn-sm btn-outline-danger">Ocultar</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal mostrar inmueble -->
+<div class="modal fade" id="m_mostrar" tabindex="-1" role="dialog" aria-labelledby="m_mostrar" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mostrar inmueble #<span id="nInmuebleM"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    ¿Seguro que desea mostrar el inmueble oculto #<span id="nInmuebleM1"></span>? <br />Este volverá a ser visible para todos los empleados.
+                </p>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-dark" data-dismiss="modal">Salir</button>
+                    <a id="mostrar" class="btn btn-sm btn-outline-success">Mostrar</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
