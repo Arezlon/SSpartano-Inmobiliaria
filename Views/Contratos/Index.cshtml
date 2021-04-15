@@ -42,18 +42,18 @@
                     }
                 </td>
                 <td>
-                    @item.Inmueble.ToString()
                     @if (item.Inmueble.Estado != 1)
                     {
                         <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
                     }
+                    @item.Inmueble.ToString()
                 </td>
                 <td>
-                    @item.Inquilino.ToString()
                     @if (item.Inquilino.Estado != 1)
                     {
                         <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
                     }
+                    @item.Inquilino.ToString()
                 </td>
                 <td>
                     @item.FechaFin.ToShortDateString()

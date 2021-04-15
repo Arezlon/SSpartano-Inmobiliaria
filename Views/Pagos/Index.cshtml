@@ -6,7 +6,7 @@
 
 <h1>Pagos del Contrato #@ViewData["ContratoId"] </h1>
 <p>
-    <a asp-route-ContratoId="@ViewData["ContratoId"]" class="@(Model.Count() < Model.First().Contrato.MesesTotales ? "" : "disabled") btn btn-sm btn-outline-dark" asp-action="Create"><i class="fas fa-money-bill-wave-alt"></i> Pagar</a>
+    <a asp-route-ContratoId="@ViewData["ContratoId"]" class="@(Model.Count() > 0 && Model.Count() >= Model.First().Contrato.MesesTotales ? "disabled" : "") btn btn-sm btn-outline-dark" asp-action="Create"><i class="fas fa-money-bill-wave-alt"></i> Pagar</a>
     <a class="btn btn-sm btn-outline-dark" asp-controller="Contratos" asp-action="Index"><i class="fas fa-undo"></i> Volver a contratos</a>
     <a asp-route-Id="@ViewData["ContratoId"]" class="btn btn-sm btn-outline-dark" asp-controller="Contratos" asp-action="Details"><i class="fas fa-file-contract"></i> Ir al contrato</a>
 </p>
@@ -42,12 +42,14 @@
                 $@Html.DisplayFor(modelItem => item.Contrato.Inmueble.Precio)
             </td>
             <td>
+                @if (item.Contrato.Inmueble.Estado != 1)
+                {
+                    <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+                }
                 @item.Contrato.Inmueble.ToString()
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
-                <!--<a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>-->
-                <!--<a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>-->
+                <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Detalles" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
             </td>
         </tr>
         }

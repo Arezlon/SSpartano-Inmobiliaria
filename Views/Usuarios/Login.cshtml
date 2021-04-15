@@ -5,7 +5,13 @@
 }
 
 <h1>Iniciar sesión</h1>
-@ViewData["Error"]
+@if (!String.IsNullOrEmpty((string)ViewData["Error"]))
+{
+<div class="alert alert-danger" role="alert">
+    <i class='fas fa-exclamation-triangle'></i>
+    @ViewData["Error"]
+</div>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">

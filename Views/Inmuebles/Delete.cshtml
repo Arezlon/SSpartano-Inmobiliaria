@@ -54,10 +54,11 @@
     </dl>
     <hr />
     <h5>¿Está seguro de querer eliminar el inmueble ubicado en @Model.Direccion (ID: @Model.Id)?</h5>
-    <h6><i class='fas fa-exclamation-triangle'></i> Esta acción no afectará a los Contratos asociados</h6>
+    <h6><i class='fas fa-exclamation-triangle'></i> Esta acción no afectará a los contratos asociados pero si a las búsquedas futuras.</h6>
+    <hr />
 
     <form asp-action="Delete">
-        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-        <a asp-action="Index">Volver a la lista</a>
+        <input type="submit" value="Eliminar" class="btn btn-sm btn-outline-danger" />
+        <a class="btn btn-sm btn-outline-dark" asp-action="Index">Volver a la lista</a>
     </form>
 </div>

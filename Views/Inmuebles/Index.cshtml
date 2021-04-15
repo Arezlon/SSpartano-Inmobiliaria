@@ -35,7 +35,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr style="@(item.Estado == 2 ? "color: darkgrey" : "")">
                 <td>
                     #@Html.DisplayFor(modelItem => item.Id)
                     @if (item.Uso == "Comercial")
