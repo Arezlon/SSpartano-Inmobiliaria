@@ -19,8 +19,8 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"INSERT INTO Inmuebles (PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Disponible, Estado) " +
-					$"VALUES (@propietarioid, @direccion, @uso, @tipo, @ambientes, @precio, @disponible, @estado);" +
+				string sql = $"INSERT INTO Inmuebles (PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Estado) " +
+					$"VALUES (@propietarioid, @direccion, @uso, @tipo, @ambientes, @precio, @estado);" +
 					"SELECT SCOPE_IDENTITY();";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -31,7 +31,7 @@ namespace SSpartanoInmobiliaria.Models
 					command.Parameters.AddWithValue("@tipo", i.Tipo);
 					command.Parameters.AddWithValue("@ambientes", i.Ambientes);
 					command.Parameters.AddWithValue("@precio", i.Precio);
-					command.Parameters.AddWithValue("@disponible", 1);
+					//command.Parameters.AddWithValue("@disponible", 1);
 					command.Parameters.AddWithValue("@estado", 1);
 
 					connection.Open();
@@ -106,7 +106,7 @@ namespace SSpartanoInmobiliaria.Models
 			return res;
 		}
 
-		public int CambiarDisponibilidad(int id, int disp)
+		/*public int CambiarDisponibilidad(int id, int disp)
 		{
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
@@ -123,14 +123,15 @@ namespace SSpartanoInmobiliaria.Models
 				}
 			}
 			return res;
-		}
+		}*/
+
 		public IList<Inmueble> ObtenerTodos()
 		{
 			IList<Inmueble> res = new List<Inmueble>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"SELECT Inmuebles.Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Inmuebles.Estado, " +
-					$"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado, Disponible" +
+					$"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado" +
 					$" FROM Inmuebles JOIN Propietarios AS p ON Inmuebles.PropietarioId = p.Id WHERE Inmuebles.Estado != 0";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -149,7 +150,7 @@ namespace SSpartanoInmobiliaria.Models
 							Ambientes = reader.GetInt32(5),
 							Precio = reader.GetInt32(6),
 							Estado = reader.GetInt32(7),
-							Disponible = reader.GetInt32(16),
+							//Disponible = reader.GetInt32(16),
 							Propietario = new Propietario
 							{
 								Id = reader.GetInt32(8),
@@ -176,7 +177,7 @@ namespace SSpartanoInmobiliaria.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"SELECT Inmuebles.Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Inmuebles.Estado, " +
-					$"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado, Disponible" +
+					$"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado" +
 					$" FROM Inmuebles JOIN Propietarios AS p ON Inmuebles.PropietarioId = p.Id WHERE Inmuebles.Estado = 1 AND Disponible = 1";
 				//sacar inmuebles con contratos existentes
 				using (SqlCommand command = new SqlCommand(sql, connection))
@@ -196,7 +197,7 @@ namespace SSpartanoInmobiliaria.Models
 							Ambientes = reader.GetInt32(5),
 							Precio = reader.GetInt32(6),
 							Estado = reader.GetInt32(7),
-							Disponible = reader.GetInt32(16),
+							//Disponible = reader.GetInt32(16),
 							Propietario = new Propietario
 							{
 								Id = reader.GetInt32(8),
@@ -225,7 +226,7 @@ namespace SSpartanoInmobiliaria.Models
 				//string sql = $"SELECT Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Estado" +
 				//	$" FROM Inmuebles WHERE Id = @id";
 				string sql = $"SELECT Inmuebles.Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Inmuebles.Estado, " +
-					$"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado, Disponible" +
+					$"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado" +
 					$" FROM Inmuebles JOIN Propietarios AS p ON Inmuebles.PropietarioId = p.Id WHERE Inmuebles.Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -245,7 +246,7 @@ namespace SSpartanoInmobiliaria.Models
 							Ambientes = reader.GetInt32(5),
 							Precio = reader.GetInt32(6),
 							Estado = reader.GetInt32(7),
-							Disponible = reader.GetInt32(15),
+							//Disponible = reader.GetInt32(15),
 							Propietario = new Propietario
 							{
 								Id = reader.GetInt32(8),

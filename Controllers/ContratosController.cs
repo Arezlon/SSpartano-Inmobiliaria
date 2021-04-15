@@ -83,7 +83,7 @@ namespace SSpartanoInmobiliaria.Controllers
                     }
                 }
                 rc.Alta(c);
-                ri.CambiarDisponibilidad(c.InmuebleId, 0);
+                //ri.CambiarDisponibilidad(c.InmuebleId, 0);
                 return RedirectToAction(nameof(Index));
 
             }
@@ -120,7 +120,6 @@ namespace SSpartanoInmobiliaria.Controllers
                 }
                 rc.Alta(c);
                 rc.Renovar(IdViejo); //ESTADO 2 (CUMPLIDO) EN EL CONTRATO VIEJO
-                //ri.CambiarDisponibilidad(c.InmuebleId, 0);
                 return RedirectToAction(nameof(Index));
 
             }
@@ -190,7 +189,7 @@ namespace SSpartanoInmobiliaria.Controllers
         [Authorize(Policy = "Administrador")]
         public ActionResult Cancelar(int id, int idInm)
         {
-            ri.CambiarDisponibilidad(idInm, 1);
+            //ri.CambiarDisponibilidad(idInm, 1);
             rc.Cancelar(id);
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];
@@ -207,7 +206,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 rc.Baja(id);
-                ri.CambiarDisponibilidad(InmuebleId, 1);
+                //ri.CambiarDisponibilidad(InmuebleId, 1);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

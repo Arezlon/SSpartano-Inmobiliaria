@@ -26,7 +26,7 @@ namespace SSpartanoInmobiliaria.Models
         public int Precio { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
         [Display(Name = "Estado")]
-        public int Disponible { get; set; }
+        //public int Disponible { get; set; }
         public int Estado { get; set; }
         //ESTADOS (0 Eliminado - 1 Activo - 2 Oculto)
         public Propietario Propietario { get; set; }
