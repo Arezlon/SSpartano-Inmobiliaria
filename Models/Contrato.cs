@@ -17,12 +17,13 @@ namespace SSpartanoInmobiliaria.Models
         [Display(Name = "Inquilino")]
         public int InquilinoId { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
-        [Display(Name = "Fecha de Inicio")]
+        [Display(Name = "Inicio")]
         public DateTime FechaInicio { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
-        [Display(Name = "Fecha de Vencimiento")]
+        [Display(Name = "Cierre")]
         public DateTime FechaFin { get; set; }
         public int Estado { get; set; }
+        //ESTADOS (0 Eliminado - 1 Activo - 2 Terminado)
         public Inmueble Inmueble { get; set; }
         public Inquilino Inquilino { get; set; }
         public Propietario Propietario { get; set; }

@@ -56,6 +56,23 @@ namespace SSpartanoInmobiliaria.Models
 			}
 			return res;
 		}
+		public int Renovar(int id)
+		{
+			int res = -1;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"UPDATE Contratos SET Estado = 2 WHERE Id = @id";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.CommandType = CommandType.Text;
+					command.Parameters.AddWithValue("@id", id);
+					connection.Open();
+					res = command.ExecuteNonQuery();
+					connection.Close();
+				}
+			}
+			return res;
+		}
 		public int Modificacion(Contrato c)
 		{
 			int res = -1;
@@ -84,8 +101,9 @@ namespace SSpartanoInmobiliaria.Models
 			//string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido "  Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado = 1";
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
+				//Agregar WHERE Contratos.Estado != 0
 				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado " +
-					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado = 1";
+					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -100,7 +118,7 @@ namespace SSpartanoInmobiliaria.Models
 							InquilinoId = reader.GetInt32(2),
 							FechaInicio = reader.GetDateTime(3),
 							FechaFin = reader.GetDateTime(4),
-							//Estado = reader.GetInt32(5),
+							Estado = reader.GetInt32(5),
 							Inmueble = new Inmueble
 							{
 								Id = reader.GetInt32(6),

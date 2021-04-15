@@ -83,6 +83,43 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
+        public ActionResult Renovar(Contrato c, int IdViejo)
+        {
+            try
+            {
+                //int diferenciaMeses = ((c.FechaFin.Year - c.FechaInicio.Year) * 12) + c.FechaFin.Month - c.FechaInicio.Month;
+
+                c.FechaFin = DateTime.Parse(c.FechaFin.ToString()).AddDays(c.FechaInicio.Day - 1);
+
+                if (c.FechaInicio.Day > 28)
+                {
+                    switch (c.FechaFin.Month)
+                    {
+                        case 3:
+                            c.FechaFin = new DateTime(c.FechaFin.Year, 2, DateTime.IsLeapYear(c.FechaFin.Year) ? 29 : 28);
+                            break;
+                        case 5:
+                        case 7:
+                        case 10:
+                        case 12:
+                            if (c.FechaInicio.Day > 30)
+                                c.FechaInicio = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
+                            break;
+                    }
+                }
+                rc.Alta(c);
+                rc.Renovar(IdViejo); //ESTADO 2 (CUMPLIDO) EN EL CONTRATO VIEJO
+                //ri.CambiarDisponibilidad(c.InmuebleId, 0);
+                return RedirectToAction(nameof(Index));
+
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
         public ActionResult Edit(int id)
         {
             var c = rc.ObtenerPorId(id);
@@ -142,11 +179,12 @@ namespace SSpartanoInmobiliaria.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "Administrador")]
-        public ActionResult Delete(int id, Contrato e)
+        public ActionResult Delete(int id, Contrato e, int InmuebleId)
         {
             try
             {
                 rc.Baja(id);
+                ri.CambiarDisponibilidad(InmuebleId, 1);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

@@ -41,10 +41,10 @@
         </dd>
     </dl>
     <hr />
-    <h5>¿Está seguro de querer eliminar el contrato -¿?- (ID: @Model.Id)?</h5>
-    <h6><i class='fas fa-exclamation-triangle'></i> Esta acción no afectará a los Pagos asociados</h6>
+    <h5>¿Está seguro de querer eliminar el contrato #@Model.Id)?</h5>
+    <h6><i class='fas fa-exclamation-triangle'></i> Esta acción <b>afectará</b> el estado del inmueble asociado pero no eliminará el registro de pagos</h6>
 
-    <form asp-action="Delete">
+    <form asp-route-InmuebleId="@Model.InmuebleId" asp-action="Delete">
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |
         <a asp-action="Index">Volver a la lista</a>
     </form>

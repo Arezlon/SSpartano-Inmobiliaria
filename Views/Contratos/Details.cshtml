@@ -6,8 +6,8 @@
 
 <h1>Detalles del contrato</h1>
 <div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_renovar">Renovar</button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_cancelar">Cancelar</button>
+    <button type="button" @Html.Encode((int)ViewData["TotalPagos"] == Model.MesesTotales && Model.Estado == 0 ? "" : "disabled") class="btn btn-outline-dark" data-toggle="modal" data-target="#m_renovar">Renovar</button>
+    <button type="button" @Html.Encode(Model.Estado == 1 ? "" : "disabled") class="btn btn-outline-dark" data-toggle="modal" data-target="#m_cancelar">Cancelar</button>
     <hr />
 
     <dl class="row">
@@ -62,9 +62,9 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Editar", "Edit", new { Id = Model.Id }) |
-    <a asp-action="Index">Volver a la lista</a> |
-    <a asp-route-ContratoId="@Model.Id" asp-controller="Pagos" asp-action="Index">Pagos</a>
+    <a class="btn btn-sm btn-outline-dark @Html.Encode(Model.Estado != 1 ? "disabled" : "")" asp-route-Id="@Model.Id" asp-controller="Contratos" asp-action="Edit">Editar</a>
+    <a class="btn btn-sm btn-outline-dark @Html.Encode(Model.Estado != 1 ? "disabled" : "")" asp-route-ContratoId="@Model.Id" asp-controller="Pagos" asp-action="Index">Pagos</a>
+    <a class="btn btn-sm btn-outline-dark" asp-action="Index">Volver a la lista</a>
 </div>
 
 
@@ -79,11 +79,29 @@
                 </button>
             </div>
             <div class="modal-body">
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-                <button type="button" class="btn btn-success">Renovar</button>
+                <p>
+                    Para renovar el contrato, seleccione un mes para la finalización del mismo, el monto será el especificado en el inmueble.
+                </p>
+                <form asp-action="Renovar" asp-route-IdViejo="@Model.Id">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <input type="hidden" value="@Model.InmuebleId" asp-for="InmuebleId" />
+                        <input type="hidden" value="@Model.InquilinoId" asp-for="InquilinoId" />
+                        <input type="hidden" value="@Model.FechaFin.AddDays(1)" asp-for="FechaInicio" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FechaFin" class="control-label"></label>
+                        <input type="month" value="@Model.FechaFin.AddMonths(1).ToString("yyyy-MM")" asp-for="FechaFin" class="form-control" />
+                        <span asp-validation-for="FechaFin" class="text-danger"></span>
+                    </div>
+                    <small>El nuevo contrato será vigente desde el día @Model.FechaFin.AddDays(1) (un dia despúes de la fecha de cierre del contrato actual)</small>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                        <button type="submit" class="btn btn-success">Renovar</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
