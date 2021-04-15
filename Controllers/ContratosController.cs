@@ -176,6 +176,18 @@ namespace SSpartanoInmobiliaria.Controllers
             return View(i);
         }
 
+        [Authorize(Policy = "Administrador")]
+        public ActionResult Cancelar(int id, int idInm)
+        {
+            ri.CambiarDisponibilidad(idInm, 1);
+            rc.Cancelar(id);
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return RedirectToAction(nameof(Index));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "Administrador")]

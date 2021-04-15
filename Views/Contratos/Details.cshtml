@@ -128,15 +128,36 @@
                 </button>
             </div>
             <div class="modal-body">
-                PAGOS:
-                @ViewData["TotalPagos"] <span>/</span>
-                @Model.MesesTotales
+                <form asp-action="Cancelar" asp-route-id="@Model.Id" asp-route-idInm="@Model.InmuebleId">
+                    @if (Model.MesesTotales / 2 > (int)ViewData["TotalPagos"])
+                    {
+                        <p>Para cancelar este contrato, antes se debe pagar la siguiente multa:</p>
+                        <span>Meses con pagos registrados:</span><b> @ViewData["TotalPagos"] <span>de</span> @Model.MesesTotales</b>
+                        <br /><span>Total a pagar antes de cancelar:</span><b> $@(Model.Inmueble.Precio*2)</b>
+                        <span>¿Seguro que desea cancelar este contrato?</span>
+                    }
+                    else if (Model.MesesTotales == (int)ViewData["TotalPagos"])
+                    {
+                        <p>Como este contrato tiene todos los pagos necesarios registrados, no hace falta pagar una multa para cancelarlo.</p>
+                        <span>Meses con pagos registrados:</span><b> @ViewData["TotalPagos"] <span>de</span> @Model.MesesTotales</b>
+                        <br /><span>Total a pagar antes de cancelar:</span><b> $0</b>
+                        <br /><br><span>¿Seguro que desea cancelar este contrato?</span>
+                    }
+                    else
+                    {
+                        <p>Para cancelar este contrato, antes se debe pagar la siguiente multa:</p>
+                        <span>Meses con pagos registrados:</span><b> @ViewData["TotalPagos"] <span>de</span> @Model.MesesTotales</b>
+                        <br /><span>Total a pagar antes de cancelar:</span><b> $@Model.Inmueble.Precio</b>
+                        <br /><br><span>¿Seguro que desea cancelar este contrato?</span>
+                    }
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
+                        <button type="submit" class="btn btn-danger">Cancelar</button>
+                    </div>
+                </form>
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Salir</button>
-                <button type="button" class="btn btn-danger">Cancelar</button>
-            </div>
+
         </div>
     </div>
 </div>

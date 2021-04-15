@@ -21,13 +21,10 @@
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Uso)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ambientes)
+                Amb.
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Precio)
@@ -44,6 +41,14 @@
             <tr>
                 <td>
                     #@Html.DisplayFor(modelItem => item.Id)
+                    @if (item.Uso == "Comercial")
+                    {
+                        <i data-toggle="tooltip" data-placement="bottom" title="Uso comercial" class='fas fa-store'></i>
+                    }
+                    else
+                    {
+                        <i data-toggle="tooltip" data-placement="bottom" title="Uso comercial" class='fas fa-home'></i>
+                    }
                 </td>
                 <td>
                     @if (item.Propietario.Estado != 1)
@@ -54,9 +59,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Direccion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Uso)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Tipo)

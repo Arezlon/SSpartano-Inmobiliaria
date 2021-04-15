@@ -21,7 +21,7 @@ namespace SSpartanoInmobiliaria.Models
         public string Tipo { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
         public int Ambientes { get; set; }
-        [Display(Name = "Precio por mes")]
+        [Display(Name = "Precio")]
         [Required(ErrorMessage = "Campo obligatorio")]
         public int Precio { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]

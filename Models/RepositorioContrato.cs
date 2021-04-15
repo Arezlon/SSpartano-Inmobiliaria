@@ -226,5 +226,26 @@ namespace SSpartanoInmobiliaria.Models
 			return TotalPagos;
 		}
 
+		public int Cancelar(int id)
+		{
+			int res = -1;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"UPDATE Contratos SET Estado=@Estado, FechaFin=@FechaFin " +
+					$"WHERE Id = @id";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.CommandType = CommandType.Text;
+					command.Parameters.AddWithValue("@Estado", 0);
+					command.Parameters.AddWithValue("@FechaFin", DateTime.Today);
+					command.Parameters.AddWithValue("@id", id);
+					connection.Open();
+					res = command.ExecuteNonQuery();
+					connection.Close();
+				}
+			}
+			return res;
+		}
+
 	}
 }

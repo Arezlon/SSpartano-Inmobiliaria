@@ -6,7 +6,7 @@
 
 <h1>Pagos del Contrato #@ViewData["ContratoId"] </h1>
 <p>
-    <a asp-route-ContratoId="@ViewData["ContratoId"]" class="btn btn-sm btn-outline-dark" asp-action="Create"><i class="fas fa-money-bill-wave-alt"></i> Pagar</a>
+    <a asp-route-ContratoId="@ViewData["ContratoId"]" class="@(Model.Count() < Model.First().Contrato.MesesTotales ? "" : "disabled") btn btn-sm btn-outline-dark" asp-action="Create"><i class="fas fa-money-bill-wave-alt"></i> Pagar</a>
     <a class="btn btn-sm btn-outline-dark" asp-controller="Contratos" asp-action="Index"><i class="fas fa-undo"></i> Volver a contratos</a>
     <a asp-route-Id="@ViewData["ContratoId"]" class="btn btn-sm btn-outline-dark" asp-controller="Contratos" asp-action="Details"><i class="fas fa-file-contract"></i> Ir al contrato</a>
 </p>
