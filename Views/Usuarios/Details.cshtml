@@ -41,7 +41,8 @@
             </dd>
         </dl>
     </div>
+    <hr />
     <div>
-        @Html.ActionLink("Editar", "Edit", new { Id = Model.Id }) |
-        <a asp-action="Index">Volver a la lista</a>
+        <a class="btn btn-sm btn-outline-dark" asp-route-Id="@Model.Id" asp-controller="Usuarios" asp-action="Edit">Editar</a>
+        <a class="btn btn-sm btn-outline-dark" asp-action="Index">Volver a la lista</a>
     </div>

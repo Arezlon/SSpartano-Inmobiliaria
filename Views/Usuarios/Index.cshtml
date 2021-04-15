@@ -49,15 +49,15 @@
                 @item.TipoCuentaNombre
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
-                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Detalles" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
+                <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Editar" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
                 @if (User.IsInRole("Administrador") && item.Estado != 0)
                 {
-                    <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
+                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Eliminar" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
                 }
                 @if (User.IsInRole("Administrador") && item.Estado == 0)
                 {
-                    <a asp-action="Restore" asp-route-id="@item.Id"><i class="fas fa-undo"></i></a>
+                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Restaurar" asp-action="Restore" asp-route-id="@item.Id"><i class="fas fa-undo"></i></a>
                 }
             </td>
         </tr>
