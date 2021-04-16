@@ -153,9 +153,9 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
-        /*public ActionResult Buscar(IFormCollection collection)
+        public ActionResult Buscar(IFormCollection collection)
         {
-            string sqlWhere = "WHERE Estado = 1";
+            string sqlWhere = "WHERE Inmuebles.Estado = 1";
             
             string FiltroUso = collection["buscar_uso"];
             string FiltroTipo = collection["buscar_tipo"];
@@ -163,16 +163,18 @@ namespace SSpartanoInmobiliaria.Controllers
             string FiltroPrecioMax = collection["buscar_precio"];
             string FiltroFechaInicio = collection["buscar_inicio"];
             string FiltroFechaFin = collection["buscar_fin"];
-            string FiltroPropietario = collection["buscar_uso"];
+            string FiltroPropietario = collection["buscar_propietario"];
 
-            sqlWhere += FiltroUso == "0" ? "" : " AND Uso=" + FiltroUso;
-            sqlWhere += FiltroTipo == "0" ? "" : " AND Tipo=" + FiltroTipo;
-            sqlWhere += FiltroCantAmbientes == "0" ? "" : " AND Ambientes=" + FiltroCantAmbientes;
-            sqlWhere += FiltroPrecioMax == "0" ? "" : " AND Precio<=" + FiltroPrecioMax;
-            //sqlWhere += FiltroFechaInicio == "0" ? "" : " AND Tipo=" + FiltroFechaInicio;
-            //sqlWhere += FiltroFechaFin == "0" ? "" : " AND Tipo=" + FiltroFechaFin;
-            sqlWhere += FiltroPropietario == "0" ? "" : " AND PropietarioId=" + FiltroPropietario;
-            return View(ri.ObtenerPorFiltro(sqlWhere));
-        }*/
+            sqlWhere += FiltroUso == "0" ? "" : $" AND Uso='{FiltroUso}'";
+            sqlWhere += FiltroTipo == "0" ? "" : $" AND Tipo='{FiltroTipo}'";
+            sqlWhere += FiltroCantAmbientes == "" ? "" : $" AND Ambientes='{FiltroCantAmbientes}'";
+            sqlWhere += FiltroPrecioMax == "" ? "" : $" AND Precio<='{FiltroPrecioMax}'";
+            //sqlWhere += FiltroFechaInicio == "0" ? "" : $" AND Tipo=" + FiltroFechaInicio;
+            //sqlWhere += FiltroFechaFin == "0" ? "" : $" AND Tipo=" + FiltroFechaFin;
+            sqlWhere += FiltroPropietario == "0" ? "" : $" AND PropietarioId='{FiltroPropietario}'";
+
+            var lista = ri.ObtenerPorFiltro(sqlWhere);
+            return View("Index", lista);
+        }
     }
 }

@@ -7,7 +7,7 @@
 <h1>Inmuebles</h1>
 <p>
     <a class="btn btn-sm btn-outline-dark" asp-action="Create"><i class="fas fa-plus"></i> Crear nuevo</a>
-    <button disabled type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#m_buscar"><i class="fas fa-search"></i> Buscar</button>
+    <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#m_buscar"><i class="fas fa-search"></i> Buscar</button>
 </p>
 <table class="table">
     <thead>
@@ -132,11 +132,11 @@
                     <div class="form-row">
                         <div class="form-group col">
                             <label class="control-label">Número de ambientes</label>
-                            <input default="0" name="buscar_ambientes" id="buscar_ambientes" placeholder="Cualquiera" type="number" class="form-control" />
+                            <input name="buscar_ambientes" id="buscar_ambientes" placeholder="Cualquiera" type="number" class="form-control" />
                         </div>
                         <div class="form-group col">
                             <label class="control-label">Precio máximo</label>
-                            <input default="0" name="buscar_precio" id="buscar_precio" placeholder="Cualquiera" type="number" class="form-control" />
+                            <input name="buscar_precio" id="buscar_precio" placeholder="Cualquiera" type="number" class="form-control" />
                         </div>
                     </div>
                     <div class="form-row">
