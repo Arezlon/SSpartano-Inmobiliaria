@@ -82,14 +82,21 @@ namespace SSpartanoInmobiliaria.Controllers
                             break;
                     }
                 }
-                rc.Alta(c);
-                //ri.CambiarDisponibilidad(c.InmuebleId, 0);
-                return RedirectToAction(nameof(Index));
-
+                if(rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin) == true)
+                {
+                    rc.Alta(c);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    throw new Exception("El inmueble seleccionado está ocupado en esas fechas.");
+                }
             }
             catch (Exception e)
             {
                 ViewData["Error"] = e.Message;
+                ViewData["ListaInmuebles"] = ri.ObtenerDisponibles();
+                ViewData["ListaInquilinos"] = riq.ObtenerTodos();
                 return View();
             }
         }

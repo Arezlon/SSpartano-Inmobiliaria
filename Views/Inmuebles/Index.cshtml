@@ -7,6 +7,7 @@
 <h1>Inmuebles</h1>
 <p>
     <a class="btn btn-sm btn-outline-dark" asp-action="Create"><i class="fas fa-plus"></i> Crear nuevo</a>
+    <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#m_buscar"><i class="fas fa-search"></i> Buscar</button>
 </p>
 <table class="table">
     <thead>
@@ -92,6 +93,73 @@
     </tbody>
 </table>
 
+<!-- Modal búsqueda de inmuebles -->
+<div class="modal fade" id="m_buscar" tabindex="-1" role="dialog" aria-labelledby="m_buscar" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscar inmuebles </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Ingrese los parámetros para la búsqueda de inmuebles personalizada:
+                </p>
+                <form asp-action="Buscar">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label class="control-label">Uso del inmueble</label>
+                            <select name="buscar_uso" id="buscar_uso" class="form-control">
+                                <option value="0" hidden selected>Cualquiera</option>
+                                <option value="Residencial">Residencial</option>
+                                <option value="Comercial">Comercial</option>
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label class="control-label">Tipo del inmueble</label>
+                            <select name="buscar_tipo" id="buscar_tipo" class="form-control">
+                                <option value="0" hidden selected>Cualquiera</option>
+                                <option value="Local">Local</option>
+                                <option value="Deposito">Depósito</option>
+                                <option value="Casa">Casa</option>
+                                <option value="Departamento">Departamento</option>
+                                <option value="Garage">Garage</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label class="control-label">Número de ambientes</label>
+                            <input name="buscar_ambientes" id="buscar_ambientes" placeholder="Cualquiera" type="number" class="form-control" />
+                        </div>
+                        <div class="form-group col">
+                            <label class="control-label">Precio máximo</label>
+                            <input name="buscar_precio" id="buscar_precio" placeholder="Cualquiera" type="number" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label class="control-label">Fecha de inicio</label>
+                            <input name="buscar_inicio" id="buscar_inicio" type="date" class="form-control" />
+                        </div>
+                        <div class="form-group col">
+                            <label class="control-label">Fecha de cierre</label>
+                            <input name="buscar_fin" id="buscar_fin" type="date" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Salir</button>
+                        <button type="submit" class="btn btn-outline-dark">Buscar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal ocultar inmueble -->
 <div class="modal fade" id="m_ocultar" tabindex="-1" role="dialog" aria-labelledby="m_ocultar" aria-hidden="true">
@@ -109,8 +177,8 @@
                 </p>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-outline-dark" data-dismiss="modal">Salir</button>
-                    <a id="ocultar" class="btn btn-sm btn-outline-danger">Ocultar</a>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Salir</button>
+                    <a id="ocultar" class="btn btn-outline-danger">Ocultar</a>
                 </div>
 
             </div>
@@ -134,8 +202,8 @@
                 </p>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-outline-dark" data-dismiss="modal">Salir</button>
-                    <a id="mostrar" class="btn btn-sm btn-outline-success">Mostrar</a>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Salir</button>
+                    <a id="mostrar" class="btn btn-outline-success">Mostrar</a>
                 </div>
 
             </div>

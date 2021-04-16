@@ -101,9 +101,8 @@ namespace SSpartanoInmobiliaria.Models
 			//string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido "  Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado = 1";
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				//Agregar WHERE Contratos.Estado != 0
 				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado " +
-					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id";
+					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado != 0";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -202,6 +201,31 @@ namespace SSpartanoInmobiliaria.Models
 				}
 			}
 			return c;
+		}
+
+		public bool ComprobarPorInmuebleYFechas(int Id, DateTime Inicio, DateTime Fin)
+        {
+			bool res = true;
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = $"SELECT Id FROM Contratos WHERE Estado = 1 AND InmuebleId=@InmuebleId AND ((FechaFin >= @Inicio AND FechaFin <= @Fin) OR (FechaInicio <= @Fin AND FechaInicio >= @Inicio) OR (FechaInicio <= @Inicio AND FechaFin >= @Fin))";
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.Parameters.Add("@InmuebleId", SqlDbType.Int).Value = Id;
+					command.Parameters.Add("@Inicio", SqlDbType.DateTime).Value = Inicio;
+					command.Parameters.Add("@Fin", SqlDbType.DateTime).Value = Fin;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+
+					if (reader.Read())
+					{
+						res = false;
+					}
+					connection.Close();
+				}
+			}
+			return res;
 		}
 
 		virtual public int TotalPagos(int id)
