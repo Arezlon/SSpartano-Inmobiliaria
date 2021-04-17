@@ -171,7 +171,7 @@ namespace SSpartanoInmobiliaria.Controllers
             sqlWhere += FiltroPropietario == "0" ? "" : $" AND PropietarioId='{FiltroPropietario}'";
 
             var lista = ri.ObtenerPorFiltro(sqlWhere);
-            if ((collection["buscar_inicio"] != "" && collection["buscar_fin"] != ""))
+            if (collection["buscar_inicio"] != "" && collection["buscar_fin"] != "")
             {
                 DateTime FiltroFechaInicio = DateTime.Parse(collection["buscar_inicio"]);
                 DateTime FiltroFechaFin = DateTime.Parse(collection["buscar_fin"]);

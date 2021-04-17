@@ -75,13 +75,13 @@
                     @if (item.Estado != 2)
                     {
                         <span data-toggle="modal" data-target="#m_ocultar">
-                            <button onclick="$('#ocultar').attr('href', 'Inmuebles/Hide/@item.Id'); $('#nInmuebleO, #nInmuebleO1').html(@item.Id)" data-toggle="tooltip" data-placement="bottom" title="Ocultar" type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-eye-slash"></i></button>
+                            <button onclick="$('#ocultar').attr('href', '/Inmuebles/Hide/@item.Id'); $('#nInmuebleO, #nInmuebleO1').html(@item.Id)" data-toggle="tooltip" data-placement="bottom" title="Ocultar" type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-eye-slash"></i></button>
                         </span>
                     }
                     else
                     {
                         <span data-toggle="modal" data-target="#m_mostrar">
-                            <button onclick="$('#mostrar').attr('href','Inmuebles/Show/@item.Id'); $('#nInmuebleM, #nInmuebleM1').html(@item.Id)" data-toggle="tooltip" data-placement="bottom" title="Mostrar" type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-eye"></i></button>
+                            <button onclick="$('#mostrar').attr('href','/Inmuebles/Show/@item.Id'); $('#nInmuebleM, #nInmuebleM1').html(@item.Id)" data-toggle="tooltip" data-placement="bottom" title="Mostrar" type="button" class="btn btn-sm btn-outline-dark"><i class="fas fa-eye"></i></button>
                         </span>
                     }
 
@@ -168,7 +168,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Salir</button>
-                        <button type="submit" class="btn btn-outline-dark">Buscar</button>
+                        <button type="submit" class="btn btn-outline-dark"><i class="fas fa-search"></i> Buscar</button>
                     </div>
                 </form>
             </div>

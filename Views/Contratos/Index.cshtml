@@ -7,6 +7,8 @@
 <h1>Contratos</h1>
 <p>
     <a class="btn btn-sm btn-outline-dark" asp-action="Create"><i class="fas fa-plus"></i> Crear nuevo</a>
+    <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#m_filtroFechas"><i class="fas fa-calendar-week"></i> Filtrar por fechas</button>
+    <button type="button" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#m_filtroInmuebles"><i class="fas fa-building"></i> Filtrar por inmueble</button>
 </p>
 <table class="table">
     <thead>
@@ -71,3 +73,79 @@
         }
     </tbody>
 </table>
+
+<!-- Modal búsqueda de contratos por fechas -->
+<div class="modal fade" id="m_filtroFechas" tabindex="-1" role="dialog" aria-labelledby="m_filtroFechas" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscar contratos por fechas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Seleccione un rango de fechas para mostrar todos los contratos vigentes dentro del mismo.
+                </p>
+                <form asp-action="Buscar">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label class="control-label">Fecha de inicio</label>
+                            <input name="buscar_inicio" id="buscar_inicio" type="date" class="form-control" />
+                        </div>
+                        <div class="form-group col">
+                            <label class="control-label">Fecha de cierre</label>
+                            <input name="buscar_fin" id="buscar_fin" type="date" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Salir</button>
+                        <button type="submit" class="btn btn-outline-dark"><i class="fas fa-search"></i> Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal búsqueda de contratos por inquilinos -->
+<div class="modal fade" id="m_filtroInmuebles" tabindex="-1" role="dialog" aria-labelledby="m_filtroInmuebles" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscar contratos por inmuebles</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Seleccione un inmueble para mostrar todos los contratos relacionados al mismo:
+                </p>
+                <form asp-action="Buscar">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label class="control-label">Inmueble</label>
+                            <select required name="buscar_inmueble" id="buscar_inmueble" class="form-control">
+                                <option value="" hidden selected>Seleccione un inmueble...</option>
+                                @foreach (var i in ViewData["ListaInmuebles"] as List<Inmueble>)
+                                {
+                                    <option value="@i.Id">
+                                        @i.ToString()
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Salir</button>
+                        <button type="submit" class="btn btn-outline-dark"><i class="fas fa-search"></i> Buscar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
