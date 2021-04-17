@@ -32,9 +32,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Contratos" asp-action="Index"><i class="fas fa-file-contract"></i> Contratos</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-file-alt"></i> Informes</a>
-                        </li>
                         @if (User.IsInRole("Administrador"))
                         {
                             <li class="nav-item">
@@ -68,13 +65,37 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (!String.IsNullOrEmpty((string)TempData["ErrorM"]))
+            {
+                <div class="alert alert-danger" role="alert">
+                    <i class='fas fa-exclamation-triangle'></i>
+                    @TempData["ErrorM"]
+                    @(TempData["ErrorM"] = "")
+                </div>
+            }
+            @if (!String.IsNullOrEmpty((string)TempData["Info"]))
+            {
+                <div class="alert alert-success" role="alert">
+                    <i class="fas fa-check-square"></i>
+                    @TempData["Info"]
+                    @(TempData["Info"] = "")
+                </div>
+            }
+            @if (!String.IsNullOrEmpty((string)TempData["Alerta"]))
+            {
+                <div class="alert alert-warning" role="alert">
+                    <i class='fas fa-exclamation-triangle'></i>
+                    @TempData["Alerta"]
+                    @(TempData["Alerta"] = "")
+                </div>
+            }
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container text-center">
-            - Inmobiliaria SSpartano 2021 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            - Inmobiliaria SSpartano 2021 -
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

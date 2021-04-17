@@ -48,6 +48,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 ri.Alta(i);
+                TempData["Info"] = "Inmueble creado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
@@ -83,7 +84,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 i.Ambientes = Convert.ToInt32(collection["Ambientes"]);
                 i.Precio = Convert.ToInt32(collection["Precio"]);
                 ri.Modificacion(i);
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Alerta"] = $"Datos del inmueble #'{id}' modificados correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -114,6 +115,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 ri.Baja(id);
+                TempData["Alerta"] = $"Inmueble #'{id}' eliminado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -129,6 +131,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 ri.CambiarVisibilidad(id, 2);
+                TempData["Alerta"] = $"El inmueble #'{id}' no será mostrado en búsquedas futuras.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -144,6 +147,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 ri.CambiarVisibilidad(id, 1);
+                TempData["Alerta"] = $"El inmueble #'{id}' volverá a ser mostrado en todas búsquedas futuras.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

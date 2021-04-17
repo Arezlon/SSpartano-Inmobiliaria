@@ -59,15 +59,15 @@ namespace SSpartanoInmobiliaria.Controllers
                         numBytesRequested: 256 / 8));
                 u.TipoCuenta = 0;
                 ru.Alta(u);
-                return RedirectToAction(nameof(Index));
-                //Importante, redirigir a dónde?
+                TempData["Info"] = "Cuenta creada correctamente, ingrese sus datos para continuar.";
+                //return RedirectToAction(nameof(Login));
+                return View("Login");
             }
             catch (Exception e)
             {
-                //ViewData["Error"] = e.Message;
-                ViewData["Error"] = "Error desconocido";
+                TempData["ErrorM"] = "Error desconocido";
                 if (e is SqlException && ((SqlException)e).Number == 2627)
-                    ViewData["Error"] =  "Error de registro, email usado por otro usuario";
+                    TempData["ErrorM"] =  "Error de registro, email usado por otro usuario";
                 return View();
             }
         }
@@ -93,7 +93,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 u.Email = collection["Email"];
                 u.TipoCuenta = Convert.ToInt32(collection["TipoCuenta"]);
                 ru.Modificacion(u);
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Alerta"] = $"Datos del usuario #'{u.Id}' modificados correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -119,6 +119,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 ru.Baja(id);
+                TempData["Alerta"] = $"Usuario #'{id}' eliminado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -144,6 +145,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 ru.Restaurar(id);
+                TempData["Alerta"] = $"Usuario #'{id}' restaurado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -177,7 +179,11 @@ namespace SSpartanoInmobiliaria.Controllers
                     Usuario u = ru.ObtenerPorEmail(collection["Email"].ToString());
                     if (u == null || u.Clave != hashed)
                     {
-                        ViewData["Error"] = "Datos de inicio de sesión incorrectos.";
+                        TempData["ErrorM"] = "Error al iniciar sesión, datos incorrectos.";
+                        return View();
+                    }else if(u.Estado != 1)
+                    {
+                        TempData["ErrorM"] = "Error al iniciar sesión, la cuenta fue eliminada/bloqueada por un administrador.";
                         return View();
                     }
                     List<Claim> claims = new List<Claim>
@@ -187,7 +193,8 @@ namespace SSpartanoInmobiliaria.Controllers
                     };
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
+                    
+                    TempData["Info"] = "Sesión iniciada correctamente.";
                     return RedirectToAction("Index", "Home");
                 }
                 throw new Exception("Error");

@@ -27,40 +27,41 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-                @if (item.Estado == 0)
-                {
-                    <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @item.TipoCuentaNombre
-            </td>
-            <td>
-                <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Detalles" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
-                <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Editar" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
-                @if (User.IsInRole("Administrador") && item.Estado != 0)
-                {
-                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Eliminar" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
-                }
-                @if (User.IsInRole("Administrador") && item.Estado == 0)
-                {
-                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Restaurar" asp-action="Restore" asp-route-id="@item.Id"><i class="fas fa-undo"></i></a>
-                }
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                    @if (item.Estado == 0)
+                    {
+                        <i data-toggle="tooltip" data-placement="bottom" title="Eliminado/Oculto" class='fas fa-exclamation-triangle'></i>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @item.TipoCuentaNombre
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Detalles" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
+                    <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Editar" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                    @if (User.IsInRole("Administrador") && item.Estado != 0)
+                    {
+                        <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Eliminar" asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash"></i></a>
+                    }
+                    @if (User.IsInRole("Administrador") && item.Estado == 0)
+                    {
+                        <a class="btn btn-sm btn-outline-dark" data-toggle="tooltip" data-placement="bottom" title="Restaurar" asp-action="Restore" asp-route-id="@item.Id"><i class="fas fa-undo"></i></a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

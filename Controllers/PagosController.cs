@@ -52,6 +52,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 Pago p = new Pago();
                 p.ContratoId = Convert.ToInt32(collection["ContratoId"]);
                 rp.Alta(p);
+                TempData["Info"] = "Pago registrado correctamente.";
                 return RedirectToAction(nameof(Index),new { ContratoId = collection["ContratoId"]});
             }
             catch (Exception e)
@@ -63,7 +64,7 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
-        public ActionResult Edit(int id)
+        /*public ActionResult Edit(int id)
         {
             var p = rp.ObtenerPorId(id);
             if (TempData.ContainsKey("Mensaje"))
@@ -85,7 +86,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 p.Fecha = DateTime.Parse(collection["Fecha"]);
 
                 rp.Modificacion(p);
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Alerta"] = $"Datos del pago #'{p.Id}' modificados correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -115,6 +116,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 rp.Baja(id);
+                TempData["Alerta"] = $"Pago #'{p.Id}' eliminado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -123,6 +125,6 @@ namespace SSpartanoInmobiliaria.Controllers
                 ViewBag.StackTrate = ex.StackTrace;
                 return View(p);
             }
-        }
+        }*/
     }
 }
