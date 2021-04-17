@@ -36,6 +36,8 @@
     <tbody>
         @foreach (var item in Model)
         {
+            @if (item.Estado > -1)
+            {
             <tr style="@(item.Estado == 2 ? "color: darkgrey" : "")">
                 <td>
                     #@Html.DisplayFor(modelItem => item.Id)
@@ -89,7 +91,8 @@
                     }
                 </td>
             </tr>
-        }
+                }
+            }
     </tbody>
 </table>
 
@@ -141,12 +144,12 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <label class="control-label">Fecha de inicio*</label>
-                            <input required name="buscar_inicio" id="buscar_inicio" type="date" class="form-control" />
+                            <label class="control-label">Fecha de inicio</label>
+                            <input name="buscar_inicio" id="buscar_inicio" type="date" class="form-control" />
                         </div>
                         <div class="form-group col">
-                            <label class="control-label">Fecha de cierre*</label>
-                            <input required name="buscar_fin" id="buscar_fin" type="date" class="form-control" />
+                            <label class="control-label">Fecha de cierre</label>
+                            <input name="buscar_fin" id="buscar_fin" type="date" class="form-control" />
                         </div>
                     </div>
                     <div class="form-row">
@@ -154,7 +157,12 @@
                             <label class="control-label">Propietario</label>
                             <select name="buscar_propietario" id="buscar_propietario" class="form-control">
                                 <option value="0" hidden selected>Cualquiera</option>
-                                <option value="1">_lista</option>
+                                @foreach (var p in ViewData["ListaPropietarios"] as List<Propietario>)
+                                {
+                                    <option value="@p.Id">
+                                        @p.ToString()
+                                    </option>
+                                }
                             </select>
                         </div>
                     </div>

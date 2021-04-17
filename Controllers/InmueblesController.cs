@@ -26,6 +26,7 @@ namespace SSpartanoInmobiliaria.Controllers
         public ActionResult Index()
         {
             var lista = ri.ObtenerTodos();
+            ViewData["ListaPropietarios"] = rp.ObtenerTodos();
             return View(lista);
         }
 
@@ -156,24 +157,34 @@ namespace SSpartanoInmobiliaria.Controllers
         public ActionResult Buscar(IFormCollection collection)
         {
             string sqlWhere = "WHERE Inmuebles.Estado = 1";
-            
+
             string FiltroUso = collection["buscar_uso"];
             string FiltroTipo = collection["buscar_tipo"];
             string FiltroCantAmbientes = collection["buscar_ambientes"];
             string FiltroPrecioMax = collection["buscar_precio"];
-            string FiltroFechaInicio = collection["buscar_inicio"];
-            string FiltroFechaFin = collection["buscar_fin"];
             string FiltroPropietario = collection["buscar_propietario"];
 
             sqlWhere += FiltroUso == "0" ? "" : $" AND Uso='{FiltroUso}'";
             sqlWhere += FiltroTipo == "0" ? "" : $" AND Tipo='{FiltroTipo}'";
             sqlWhere += FiltroCantAmbientes == "" ? "" : $" AND Ambientes='{FiltroCantAmbientes}'";
             sqlWhere += FiltroPrecioMax == "" ? "" : $" AND Precio<='{FiltroPrecioMax}'";
-            //sqlWhere += FiltroFechaInicio == "0" ? "" : $" AND Tipo=" + FiltroFechaInicio;
-            //sqlWhere += FiltroFechaFin == "0" ? "" : $" AND Tipo=" + FiltroFechaFin;
             sqlWhere += FiltroPropietario == "0" ? "" : $" AND PropietarioId='{FiltroPropietario}'";
 
             var lista = ri.ObtenerPorFiltro(sqlWhere);
+            if ((collection["buscar_inicio"] != "" && collection["buscar_fin"] != ""))
+            {
+                DateTime FiltroFechaInicio = DateTime.Parse(collection["buscar_inicio"]);
+                DateTime FiltroFechaFin = DateTime.Parse(collection["buscar_fin"]);
+
+                RepositorioContrato rc = new RepositorioContrato(c);
+                foreach (var item in lista) //Mejorar esto (Si hay tiempo)
+                {
+                    if (!rc.ComprobarPorInmuebleYFechas(item.Id, FiltroFechaInicio, FiltroFechaFin))
+                        item.Estado = -1; //Estado -1 para inmueble ocupado en las fechas seleccionadas
+                }
+            }
+
+            ViewData["ListaPropietarios"] = rp.ObtenerTodos();
             return View("Index", lista);
         }
     }
