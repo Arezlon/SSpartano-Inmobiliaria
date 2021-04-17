@@ -47,6 +47,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 rp.Alta(p);
+                TempData["Info"] = "Propietario creado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
@@ -81,7 +82,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 p.Email = collection["Email"];
                 p.Telefono = collection["Telefono"];
                 rp.Modificacion(p);
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Alerta"] = $"Datos del propietario #'{id}' modificados correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -112,6 +113,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 rp.Baja(id);
+                TempData["Alerta"] = $"Propietario #'{id}' eliminado correctamente (junto con todos sus inmuebles)";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

@@ -86,16 +86,17 @@ namespace SSpartanoInmobiliaria.Controllers
                 if(rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin) == true)
                 {
                     rc.Alta(c);
+                    TempData["Info"] = "Contrato creado correctamente.";
                     return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    throw new Exception("El inmueble seleccionado está ocupado en esas fechas.");
+                    throw new Exception("No se puede crear el contrato, el inmueble seleccionado está ocupado en esas fechas.");
                 }
             }
             catch (Exception e)
             {
-                ViewData["Error"] = e.Message;
+                TempData["ErrorM"] = e.Message;
                 ViewData["ListaInmuebles"] = ri.ObtenerDisponibles();
                 ViewData["ListaInquilinos"] = riq.ObtenerTodos();
                 return View();
@@ -128,6 +129,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 }
                 rc.Alta(c);
                 rc.Renovar(IdViejo); //ESTADO 2 (CUMPLIDO) EN EL CONTRATO VIEJO
+                TempData["Info"] = "Contrato renovado correctamente.";
                 return RedirectToAction(nameof(Index));
 
             }
@@ -171,7 +173,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 c.FechaInicio = DateTime.Parse(collection["FechaInicio"]);
                 c.FechaFin = DateTime.Parse(collection["FechaFin"]);
                 rc.Modificacion(c);
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Alerta"] = $"Datos del contrato #'{id}' modificados correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -200,10 +202,11 @@ namespace SSpartanoInmobiliaria.Controllers
         {
             //ri.CambiarDisponibilidad(idInm, 1);
             rc.Cancelar(id);
-            if (TempData.ContainsKey("Mensaje"))
+            TempData["Alerta"] = $"Contrato #'{id}' cancelado correctamente.";
+            /*if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];
             if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
+                ViewBag.Error = TempData["Error"];*/
             return RedirectToAction(nameof(Index));
         }
 
@@ -215,6 +218,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 rc.Baja(id);
+                TempData["Alerta"] = $"Contrato #'{id}' eliminado correctamente.";
                 //ri.CambiarDisponibilidad(InmuebleId, 1);
                 return RedirectToAction(nameof(Index));
             }

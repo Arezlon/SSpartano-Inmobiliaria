@@ -44,6 +44,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 ri.Alta(i);
+                TempData["Info"] = "Inquilino creado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
@@ -84,7 +85,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 i.GaranteEmail = collection["GaranteEmail"];
 
                 ri.Modificacion(i);
-                TempData["Mensaje"] = "Datos guardados correctamente";
+                TempData["Alerta"] = $"Datos del inquilino #'{id}' modificados correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -114,6 +115,7 @@ namespace SSpartanoInmobiliaria.Controllers
             try
             {
                 ri.Baja(id);
+                TempData["Alerta"] = $"Inquilino #'{id}' eliminado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
