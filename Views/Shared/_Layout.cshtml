@@ -67,26 +67,35 @@
         <main role="main" class="pb-3">
             @if (!String.IsNullOrEmpty((string)TempData["ErrorM"]))
             {
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class='fas fa-exclamation-triangle'></i>
                     @TempData["ErrorM"]
                     @(TempData["ErrorM"] = "")
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             }
             @if (!String.IsNullOrEmpty((string)TempData["Info"]))
             {
-                <div class="alert alert-success" role="alert">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="fas fa-check-square"></i>
                     @TempData["Info"]
                     @(TempData["Info"] = "")
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             }
             @if (!String.IsNullOrEmpty((string)TempData["Alerta"]))
             {
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <i class='fas fa-exclamation-triangle'></i>
                     @TempData["Alerta"]
                     @(TempData["Alerta"] = "")
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             }
             @RenderBody()
