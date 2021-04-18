@@ -142,6 +142,7 @@ namespace SSpartanoInmobiliaria.Controllers
 
         public ActionResult Edit(int id)
         {
+            ViewData["TotalPagos"] = rc.TotalPagos(id);
             var c = rc.ObtenerPorId(id);
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];
@@ -172,14 +173,22 @@ namespace SSpartanoInmobiliaria.Controllers
                 c.InquilinoId = Convert.ToInt32(collection["InquilinoId"]);
                 c.FechaInicio = DateTime.Parse(collection["FechaInicio"]);
                 c.FechaFin = DateTime.Parse(collection["FechaFin"]);
-                rc.Modificacion(c);
-                TempData["Alerta"] = $"Datos del contrato #'{id}' modificados correctamente.";
-                return RedirectToAction(nameof(Index));
+                if(c.FechaFin <= c.FechaInicio || !rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin, id))
+                {
+                    throw new Exception("No se puede editar el contrato, el inmueble seleccionado está ocupado por otro contrato en las fechas seleccionadas o las mismas no son válidas.");
+                }
+                else
+                {
+                    rc.Modificacion(c);
+                    TempData["Alerta"] = $"Datos del contrato #'{id}' modificados correctamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrace = ex.StackTrace;
+                ViewData["TotalPagos"] = rc.TotalPagos(id);
+                TempData["ErrorM"] = ex.Message;
                 ViewData["ListaInmuebles"] = ri.ObtenerDisponibles();
                 ViewData["ListaInquilinos"] = riq.ObtenerTodos();
                 return View(c);

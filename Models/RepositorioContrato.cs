@@ -203,15 +203,16 @@ namespace SSpartanoInmobiliaria.Models
 			return c;
 		}
 
-		public bool ComprobarPorInmuebleYFechas(int Id, DateTime Inicio, DateTime Fin)
+		public bool ComprobarPorInmuebleYFechas(int Id, DateTime Inicio, DateTime Fin, int Ignorar = 0) //Usar el parámetro ignorar para la edición de contratos
         {
 			bool res = true;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id FROM Contratos WHERE Estado = 1 AND InmuebleId=@InmuebleId AND ((FechaFin >= @Inicio AND FechaFin <= @Fin) OR (FechaInicio <= @Fin AND FechaInicio >= @Inicio) OR (FechaInicio <= @Inicio AND FechaFin >= @Fin))";
+				string sql = $"SELECT Id FROM Contratos WHERE Estado = 1 AND InmuebleId=@InmuebleId AND ((FechaFin >= @Inicio AND FechaFin <= @Fin) OR (FechaInicio <= @Fin AND FechaInicio >= @Inicio) OR (FechaInicio <= @Inicio AND FechaFin >= @Fin)) AND Id != @Ignorar";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@InmuebleId", SqlDbType.Int).Value = Id;
+					command.Parameters.Add("@Ignorar", SqlDbType.Int).Value = Ignorar;
 					command.Parameters.Add("@Inicio", SqlDbType.DateTime).Value = Inicio;
 					command.Parameters.Add("@Fin", SqlDbType.DateTime).Value = Fin;
 					command.CommandType = CommandType.Text;
