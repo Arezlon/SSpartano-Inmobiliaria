@@ -17,9 +17,13 @@
                     <option value="" hidden selected>Elegir un inmueble</option>
                     @foreach (var i in ViewData["ListaInmuebles"] as List<Inmueble>)
                     {
-                        <option value="@i.Id">
-                            @i.ToString()
-                        </option>
+                        if (i.Estado == 1)
+                        {
+                            <option value="@i.Id">
+                                @i.ToString()
+                            </option>
+                        }
+
                     }
                 </select>
                 <span asp-validation-for="InmuebleId" class="text-danger"></span>

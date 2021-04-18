@@ -148,7 +148,7 @@
                         <p>Para cancelar este contrato, antes se debe pagar la siguiente multa:</p>
                         <span>Meses con pagos registrados:</span><b> @ViewData["TotalPagos"] <span>de</span> @Model.MesesTotales</b>
                         <br /><span>Total a pagar antes de cancelar:</span><b> $@(Model.Inmueble.Precio*2)</b>
-                        <span>¿Seguro que desea cancelar este contrato?</span>
+                        <br /><span>¿Seguro que desea cancelar este contrato?</span>
                     }
                     else if (Model.MesesTotales == (int)ViewData["TotalPagos"])
                     {
