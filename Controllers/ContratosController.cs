@@ -241,16 +241,18 @@ namespace SSpartanoInmobiliaria.Controllers
 
         public ActionResult Buscar(IFormCollection collection)
         {
-            string sqlWhere = "WHERE Contratos.Estado = 1";
+            string sqlWhere = "";
 
             if (!String.IsNullOrEmpty(collection["buscar_inicio"]) && !String.IsNullOrEmpty(collection["buscar_fin"]))
             {
+                sqlWhere = "WHERE Contratos.Estado = 1";
                 DateTime FiltroFechaInicio = DateTime.Parse(collection["buscar_inicio"]);
                 DateTime FiltroFechaFin = DateTime.Parse(collection["buscar_fin"]);
                 sqlWhere += $" AND ((FechaFin >= '{FiltroFechaInicio.ToString("MM-dd-yyyy")}' AND FechaFin <= '{FiltroFechaFin.ToString("MM-dd-yyyy")}') OR (FechaInicio <= '{FiltroFechaFin.ToString("MM-dd-yyyy")}' AND FechaInicio >= '{FiltroFechaInicio.ToString("MM-dd-yyyy")}') OR (FechaInicio <= '{FiltroFechaInicio.ToString("MM-dd-yyyy")}' AND FechaFin >= '{FiltroFechaFin.ToString("MM-dd-yyyy")}'))";
             }
             else if(collection["buscar_inmueble"] != "")
             {
+                sqlWhere = "WHERE Contratos.Estado >= 0";
                 sqlWhere += $" AND InmuebleId='{collection["buscar_inmueble"]}'";
             }
             var lista = rc.ObtenerPorFiltro(sqlWhere);
