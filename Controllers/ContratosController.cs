@@ -105,11 +105,12 @@ namespace SSpartanoInmobiliaria.Controllers
             }
         }
 
-        public ActionResult Renovar(Contrato c, int IdViejo)
+        public ActionResult Renovar(Contrato c, int IdViejo) //revisar
         {
             try
             {
-                //int diferenciaMeses = ((c.FechaFin.Year - c.FechaInicio.Year) * 12) + c.FechaFin.Month - c.FechaInicio.Month;
+                if (c.FechaInicio >= c.FechaFin)
+                    throw new Exception("No se puede renovar el contrato, la fecha de inicio del mismo no puede ser mayor/igual a la de cierre.");
 
                 c.FechaFin = DateTime.Parse(c.FechaFin.ToString()).AddDays(c.FechaInicio.Day - 1);
 
@@ -129,17 +130,22 @@ namespace SSpartanoInmobiliaria.Controllers
                             break;
                     }
                 }
-                rc.Alta(c);
-                rc.Renovar(IdViejo); //ESTADO 2 (CUMPLIDO) EN EL CONTRATO VIEJO
-                TempData["Info"] = "Contrato renovado correctamente.";
-                return RedirectToAction(nameof(Index));
-
+                if (!rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin))
+                {
+                    throw new Exception("No se puede renovar el contrato, el inmueble seleccionado está ocupado por otro contrato en las fechas seleccionadas.");
+                }
+                else
+                {
+                    rc.Alta(c);
+                    rc.Renovar(IdViejo); //ESTADO 2 (CUMPLIDO) EN EL CONTRATO VIEJO
+                    TempData["Info"] = "Contrato renovado correctamente.";
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch (Exception e)
             {
-                ViewData["Error"] = e.Message;
-                TempData["ErrorM"] = "Error desconocido.";
-                return View();
+                TempData["ErrorM"] = e.Message;
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -147,10 +153,6 @@ namespace SSpartanoInmobiliaria.Controllers
         {
             ViewData["TotalPagos"] = rc.TotalPagos(id);
             var c = rc.ObtenerPorId(id);
-            if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
             IList<Inmueble> Inmuebles = ri.ObtenerDisponibles();
             if (c.Inmueble.Estado != 1)
                 Inmuebles.Insert(0, c.Inmueble);
@@ -176,11 +178,30 @@ namespace SSpartanoInmobiliaria.Controllers
                 c.InquilinoId = Convert.ToInt32(collection["InquilinoId"]);
                 c.FechaInicio = DateTime.Parse(collection["FechaInicio"]);
                 c.FechaFin = DateTime.Parse(collection["FechaFin"]);
+
+                c.FechaFin = DateTime.Parse(c.FechaFin.ToString()).AddDays(c.FechaInicio.Day - 1);
+                if (c.FechaInicio.Day > 28)
+                {
+                    switch (c.FechaFin.Month)
+                    {
+                        case 3:
+                            c.FechaFin = new DateTime(c.FechaFin.Year, 2, DateTime.IsLeapYear(c.FechaFin.Year) ? 29 : 28);
+                            break;
+                        case 5:
+                        case 7:
+                        case 10:
+                        case 12:
+                            if (c.FechaInicio.Day > 30)
+                                c.FechaInicio = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
+                            break;
+                    }
+                }
+
                 if (!rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin, id))
                 {
                     throw new Exception("No se puede editar el contrato, el inmueble seleccionado está ocupado por otro contrato en las fechas seleccionadas.");
                 }
-                else if (c.FechaFin <= c.FechaInicio)
+                else if (c.FechaFin <= c.FechaInicio || (c.FechaInicio.Year == c.FechaFin.Year && c.FechaInicio.Month == c.FechaFin.Month))
                 {
                     throw new Exception("No se puede editar el contrato, las fechas seleccionadas no son válidas");
                 }
