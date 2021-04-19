@@ -136,6 +136,7 @@ namespace SSpartanoInmobiliaria.Controllers
             catch (Exception e)
             {
                 ViewData["Error"] = e.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View();
             }
         }
@@ -199,23 +200,14 @@ namespace SSpartanoInmobiliaria.Controllers
         public ActionResult Delete(int id)
         {
             var i = rc.ObtenerPorId(id);
-            if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
             return View(i);
         }
 
         [Authorize(Policy = "Administrador")]
         public ActionResult Cancelar(int id, int idInm)
         {
-            //ri.CambiarDisponibilidad(idInm, 1);
             rc.Cancelar(id);
             TempData["Alerta"] = $"Contrato #'{id}' cancelado correctamente.";
-            /*if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];*/
             return RedirectToAction(nameof(Index));
         }
 
@@ -228,13 +220,12 @@ namespace SSpartanoInmobiliaria.Controllers
             {
                 rc.Baja(id);
                 TempData["Alerta"] = $"Contrato #'{id}' eliminado correctamente.";
-                //ri.CambiarDisponibilidad(InmuebleId, 1);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrate = ex.StackTrace;
+                ViewData["Error"] = ex.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View(e);
             }
         }

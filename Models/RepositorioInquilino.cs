@@ -98,7 +98,7 @@ namespace SSpartanoInmobiliaria.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, LugarTrabajo, GaranteNombre, GaranteApellido, GaranteDni, GaranteTelefono, GaranteEmail, Estado" +
-					$" FROM Inquilinos WHERE Estado != 0";
+					$" FROM Inquilinos WHERE Estado != 0 ORDER BY Id DESC";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;

@@ -118,7 +118,7 @@
                         <input type="month" value="@Model.FechaFin.AddMonths(1).ToString("yyyy-MM")" asp-for="FechaFin" class="form-control" />
                         <span asp-validation-for="FechaFin" class="text-danger"></span>
                     </div>
-                    <small>El nuevo contrato será vigente desde el día @Model.FechaFin.AddDays(1) (un dia despúes de la fecha de cierre del contrato actual)</small>
+                    <small>El nuevo contrato será vigente desde el día @Model.FechaFin.AddDays(1).ToShortDateString() (un dia despúes de la fecha de cierre del contrato actual)</small>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Salir</button>

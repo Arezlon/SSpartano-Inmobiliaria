@@ -102,7 +102,7 @@ namespace SSpartanoInmobiliaria.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado " +
-					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado != 0";
+					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado != 0 ORDER BY Contratos.Id DESC";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -208,7 +208,7 @@ namespace SSpartanoInmobiliaria.Models
 			bool res = true;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id FROM Contratos WHERE Estado = 1 AND InmuebleId=@InmuebleId AND ((FechaFin >= @Inicio AND FechaFin <= @Fin) OR (FechaInicio <= @Fin AND FechaInicio >= @Inicio) OR (FechaInicio <= @Inicio AND FechaFin >= @Fin)) AND Id != @Ignorar";
+				string sql = $"SELECT Id FROM Contratos WHERE Estado != 0 AND InmuebleId=@InmuebleId AND ((FechaFin >= @Inicio AND FechaFin <= @Fin) OR (FechaInicio <= @Fin AND FechaInicio >= @Inicio) OR (FechaInicio <= @Inicio AND FechaFin >= @Fin)) AND Id != @Ignorar";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@InmuebleId", SqlDbType.Int).Value = Id;

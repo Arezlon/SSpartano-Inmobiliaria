@@ -129,7 +129,7 @@ namespace SSpartanoInmobiliaria.Models
             {
                 string sql = $"SELECT Inmuebles.Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Inmuebles.Estado, " +
                     $"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado" +
-                    $" FROM Inmuebles JOIN Propietarios AS p ON Inmuebles.PropietarioId = p.Id WHERE Inmuebles.Estado != 0";
+                    $" FROM Inmuebles JOIN Propietarios AS p ON Inmuebles.PropietarioId = p.Id WHERE Inmuebles.Estado != 0 ORDER BY Inmuebles.Id DESC";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.CommandType = CommandType.Text;
@@ -174,7 +174,7 @@ namespace SSpartanoInmobiliaria.Models
             {
                 string sql = $"SELECT Inmuebles.Id, PropietarioId, Direccion, Uso, Tipo, Ambientes, Precio, Inmuebles.Estado, " +
                     $"p.Id, p.Nombre, p.Apellido, p.Dni, p.Telefono, p.Email, p.Clave, p.Estado" +
-                    $" FROM Inmuebles JOIN Propietarios AS p ON Inmuebles.PropietarioId = p.Id WHERE Inmuebles.Estado = 1";
+                    $" FROM Inmuebles JOIN Propietarios AS p ON Inmuebles.PropietarioId = p.Id WHERE Inmuebles.Estado = 1 ORDER BY Inmuebles.Id DESC";
                 //sacar inmuebles con contratos existentes
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {

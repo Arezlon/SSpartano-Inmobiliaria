@@ -19,9 +19,9 @@ namespace SSpartanoInmobiliaria.Models
         public string Uso { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]
         public string Tipo { get; set; }
-        [Required(ErrorMessage = "Campo obligatorio")] //StringLength(2, MinimumLength = 1, ErrorMessage = "1 ambiente mínimo, 99 máximo")
+        [Required(ErrorMessage = "Campo obligatorio"), StringLength(2, MinimumLength = 1, ErrorMessage = "1 ambiente mínimo, 99 máximo")]
         public int Ambientes { get; set; }
-        [Display(Name = "Precio")] //StringLength(6, MinimumLength = 3, ErrorMessage = "3 dígitos mínimo, 6 máximo")
+        [Display(Name = "Precio"), StringLength(6, MinimumLength = 3, ErrorMessage = "3 dígitos mínimo, 6 máximo")]
         [Required(ErrorMessage = "Campo obligatorio")]
         public int Precio { get; set; }
         [Required(ErrorMessage = "Campo obligatorio")]

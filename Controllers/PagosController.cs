@@ -59,6 +59,7 @@ namespace SSpartanoInmobiliaria.Controllers
             {
                 RepositorioContrato rc = new RepositorioContrato(c);
                 ViewData["Error"] = e.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 ViewData["Contrato"] = rc.ObtenerPorId(Convert.ToInt32(collection["ContratoId"]));
                 return View();
             }

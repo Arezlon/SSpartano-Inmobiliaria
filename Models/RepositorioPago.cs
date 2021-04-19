@@ -79,7 +79,7 @@ namespace SSpartanoInmobiliaria.Models
 			IList<Pago> res = new List<Pago>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, ContratoId, Fecha FROM Pagos WHERE Estado = 1";
+				string sql = $"SELECT Id, ContratoId, Fecha FROM Pagos WHERE Estado = 1 ORDER BY Id DESC";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -148,7 +148,7 @@ namespace SSpartanoInmobiliaria.Models
 			IList<Pago> res = new List<Pago>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Pagos.Id, ContratoId, Fecha, cn.Id, cn.InmuebleId, cn.InquilinoId, cn.FechaInicio, cn.FechaFin FROM Pagos JOIN Contratos AS cn ON Pagos.ContratoId = cn.Id WHERE ContratoId = @idC";
+				string sql = $"SELECT Pagos.Id, ContratoId, Fecha, cn.Id, cn.InmuebleId, cn.InquilinoId, cn.FechaInicio, cn.FechaFin FROM Pagos JOIN Contratos AS cn ON Pagos.ContratoId = cn.Id WHERE ContratoId = @idC ORDER BY Pagos.Id DESC";
 				//string sql = $"SELECT Id, ContratoId, Fecha FROM Pagos WHERE Estado = 1 AND ContratoId = @idC";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{

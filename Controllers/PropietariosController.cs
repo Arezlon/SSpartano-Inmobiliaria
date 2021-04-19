@@ -53,6 +53,7 @@ namespace SSpartanoInmobiliaria.Controllers
             catch (Exception e)
             {
                 ViewData["Error"] = e.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View();
             }
         }
@@ -60,10 +61,6 @@ namespace SSpartanoInmobiliaria.Controllers
         public ActionResult Edit(int id)
         {
             var p = rp.ObtenerPorId(id);
-            if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
             return View(p);
         }
 
@@ -87,8 +84,8 @@ namespace SSpartanoInmobiliaria.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrace = ex.StackTrace;
+                ViewData["Error"] = ex.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View(p);
             }
         }
@@ -97,10 +94,6 @@ namespace SSpartanoInmobiliaria.Controllers
         public ActionResult Delete(int id)
         {
             var p = rp.ObtenerPorId(id);
-            if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
             return View(p);
         }
 
@@ -118,8 +111,8 @@ namespace SSpartanoInmobiliaria.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrate = ex.StackTrace;
+                ViewData["Error"] = ex.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View(entidad);
             }
         }

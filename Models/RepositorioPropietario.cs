@@ -88,7 +88,7 @@ namespace SSpartanoInmobiliaria.Models
 			IList<Propietario> res = new List<Propietario>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Clave FROM Propietarios WHERE Estado = 1";
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, Clave FROM Propietarios WHERE Estado = 1 ORDER BY Id DESC";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;

@@ -22,7 +22,7 @@ namespace SSpartanoInmobiliaria.Models
 
         [Required(ErrorMessage = "Campo obligatorio"), EmailAddress(ErrorMessage = "Ingrese un e-mail válido")]
         public string Email { get; set; }
-        [Display(Name = "Teléfono"), Required(ErrorMessage = "Campo obligatorio"), DataType(DataType.PhoneNumber)]
+        [Display(Name = "Teléfono"), Required(ErrorMessage = "Campo obligatorio"), DataType(DataType.PhoneNumber), StringLength(16, MinimumLength = 10, ErrorMessage = "Ingrese un número télefono válido (de 10 a 16 caracteres)")]
         public string Telefono { get; set; }
 
         [Required, DataType(DataType.Password), StringLength(16, MinimumLength = 8, ErrorMessage = "8 caracteres mínimo, 16 máximo")]

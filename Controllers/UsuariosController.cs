@@ -98,8 +98,8 @@ namespace SSpartanoInmobiliaria.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrace = ex.StackTrace;
+                ViewData["Error"] = ex.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View(u);
             }
         }
@@ -124,8 +124,8 @@ namespace SSpartanoInmobiliaria.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrate = ex.StackTrace;
+                ViewData["Error"] = ex.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View(u);
             }
         }
@@ -150,8 +150,8 @@ namespace SSpartanoInmobiliaria.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Error = ex.Message;
-                ViewBag.StackTrate = ex.StackTrace;
+                ViewData["Error"] = ex.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View(u);
             }
         }
@@ -202,6 +202,7 @@ namespace SSpartanoInmobiliaria.Controllers
             catch (Exception ex)
             {
                 ViewData["Error"] = ex.Message;
+                TempData["ErrorM"] = "Error desconocido.";
                 return View();
             }
         }
