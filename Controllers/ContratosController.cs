@@ -42,7 +42,7 @@ namespace SSpartanoInmobiliaria.Controllers
             contrato.ProximoPago = ProximoPago;
 
             ViewData["TotalPagos"] = totalPagos;
-            if(ProximoPago > DateTime.Now)
+            if (ProximoPago > DateTime.Now)
                 contrato.EstadoPagos = 1;
             else
                 contrato.EstadoPagos = 2;
@@ -63,6 +63,8 @@ namespace SSpartanoInmobiliaria.Controllers
         {
             try
             {
+                if (c.FechaInicio >= c.FechaFin)
+                    throw new Exception("No se puede crear el contrato, la fecha de inicio del mismo no puede ser mayor/igual a la de cierre.");
                 //int diferenciaMeses = ((c.FechaFin.Year - c.FechaInicio.Year) * 12) + c.FechaFin.Month - c.FechaInicio.Month;
 
                 c.FechaFin = DateTime.Parse(c.FechaFin.ToString()).AddDays(c.FechaInicio.Day - 1);
@@ -83,7 +85,7 @@ namespace SSpartanoInmobiliaria.Controllers
                             break;
                     }
                 }
-                if(rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin) == true)
+                if (rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin) == true)
                 {
                     rc.Alta(c);
                     TempData["Info"] = "Contrato creado correctamente.";
@@ -174,9 +176,13 @@ namespace SSpartanoInmobiliaria.Controllers
                 c.InquilinoId = Convert.ToInt32(collection["InquilinoId"]);
                 c.FechaInicio = DateTime.Parse(collection["FechaInicio"]);
                 c.FechaFin = DateTime.Parse(collection["FechaFin"]);
-                if(c.FechaFin <= c.FechaInicio || !rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin, id))
+                if (!rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin, id))
                 {
-                    throw new Exception("No se puede editar el contrato, el inmueble seleccionado está ocupado por otro contrato en las fechas seleccionadas o las mismas no son válidas.");
+                    throw new Exception("No se puede editar el contrato, el inmueble seleccionado está ocupado por otro contrato en las fechas seleccionadas.");
+                }
+                else if (c.FechaFin <= c.FechaInicio)
+                {
+                    throw new Exception("No se puede editar el contrato, las fechas seleccionadas no son válidas");
                 }
                 else
                 {
@@ -184,12 +190,12 @@ namespace SSpartanoInmobiliaria.Controllers
                     TempData["Alerta"] = $"Datos del contrato #'{id}' modificados correctamente.";
                     return RedirectToAction(nameof(Index));
                 }
-                
+
             }
             catch (Exception ex)
             {
-                ViewData["TotalPagos"] = rc.TotalPagos(id);
                 TempData["ErrorM"] = ex.Message;
+                ViewData["TotalPagos"] = rc.TotalPagos(id);
                 ViewData["ListaInmuebles"] = ri.ObtenerDisponibles();
                 ViewData["ListaInquilinos"] = riq.ObtenerTodos();
                 return View(c);
@@ -241,7 +247,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 DateTime FiltroFechaFin = DateTime.Parse(collection["buscar_fin"]);
                 sqlWhere += $" AND ((FechaFin >= '{FiltroFechaInicio.ToString("MM-dd-yyyy")}' AND FechaFin <= '{FiltroFechaFin.ToString("MM-dd-yyyy")}') OR (FechaInicio <= '{FiltroFechaFin.ToString("MM-dd-yyyy")}' AND FechaInicio >= '{FiltroFechaInicio.ToString("MM-dd-yyyy")}') OR (FechaInicio <= '{FiltroFechaInicio.ToString("MM-dd-yyyy")}' AND FechaFin >= '{FiltroFechaFin.ToString("MM-dd-yyyy")}'))";
             }
-            else if(collection["buscar_inmueble"] != "")
+            else if (collection["buscar_inmueble"] != "")
             {
                 sqlWhere = "WHERE Contratos.Estado >= 0";
                 sqlWhere += $" AND InmuebleId='{collection["buscar_inmueble"]}'";
