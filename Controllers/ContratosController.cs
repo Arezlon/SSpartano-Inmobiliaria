@@ -67,13 +67,14 @@ namespace SSpartanoInmobiliaria.Controllers
                     throw new Exception("No se puede crear el contrato, la fecha de inicio del mismo no puede ser mayor/igual a la de cierre.");
                 //int diferenciaMeses = ((c.FechaFin.Year - c.FechaInicio.Year) * 12) + c.FechaFin.Month - c.FechaInicio.Month;
 
-                c.FechaFin = DateTime.Parse(c.FechaFin.ToString()).AddDays(c.FechaInicio.Day - 1);
+                //El default del fechafin es el dia 1 del mes y año seleccionados
+                c.FechaFin = DateTime.Parse(c.FechaFin.ToString()).AddDays(c.FechaInicio.Day - 1); //el AddDays() puede cambiar el mes
 
                 if (c.FechaInicio.Day > 28)
                 {
-                    switch (c.FechaFin.Month)
+                    switch (c.FechaFin.Month) //casos para cada mes siguiente a uno que no sea de 31 días
                     {
-                        case 3:
+                        case 3: //2 -> 28/29
                             c.FechaFin = new DateTime(c.FechaFin.Year, 2, DateTime.IsLeapYear(c.FechaFin.Year) ? 29 : 28);
                             break;
                         case 5:
@@ -81,7 +82,7 @@ namespace SSpartanoInmobiliaria.Controllers
                         case 10:
                         case 12:
                             if (c.FechaInicio.Day > 30)
-                                c.FechaInicio = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
+                                c.FechaFin = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
                             break;
                     }
                 }
@@ -103,7 +104,11 @@ namespace SSpartanoInmobiliaria.Controllers
                 ViewData["ListaInquilinos"] = riq.ObtenerTodos();
                 return View();
             }
+
+
         }
+
+
 
         public ActionResult Renovar(Contrato c, int IdViejo) //revisar
         {
@@ -126,7 +131,7 @@ namespace SSpartanoInmobiliaria.Controllers
                         case 10:
                         case 12:
                             if (c.FechaInicio.Day > 30)
-                                c.FechaInicio = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
+                                c.FechaFin = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
                             break;
                     }
                 }
@@ -178,7 +183,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 c.InquilinoId = Convert.ToInt32(collection["InquilinoId"]);
                 c.FechaInicio = DateTime.Parse(collection["FechaInicio"]);
                 c.FechaFin = DateTime.Parse(collection["FechaFin"]);
-
+                
                 c.FechaFin = DateTime.Parse(c.FechaFin.ToString()).AddDays(c.FechaInicio.Day - 1);
                 if (c.FechaInicio.Day > 28)
                 {
@@ -192,7 +197,7 @@ namespace SSpartanoInmobiliaria.Controllers
                         case 10:
                         case 12:
                             if (c.FechaInicio.Day > 30)
-                                c.FechaInicio = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
+                                c.FechaFin = new DateTime(c.FechaFin.Year, c.FechaFin.Month - 1, 30);
                             break;
                     }
                 }

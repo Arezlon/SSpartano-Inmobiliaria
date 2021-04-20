@@ -188,7 +188,7 @@ namespace SSpartanoInmobiliaria.Controllers
 
                 sqlWhere += FiltroUso == "0" ? "" : $" AND Uso='{FiltroUso}'";
                 sqlWhere += FiltroTipo == "0" ? "" : $" AND Tipo='{FiltroTipo}'";
-                sqlWhere += FiltroCantAmbientes == "" ? "" : $" AND Ambientes='{FiltroCantAmbientes}'";
+                sqlWhere += FiltroCantAmbientes == "" ? "" : $" AND Ambientes='{FiltroCantAmbientes}'"; //Esto debería incluir mayores al número igresado?
                 sqlWhere += FiltroPrecioMax == "" ? "" : $" AND Precio<='{FiltroPrecioMax}'";
                 sqlWhere += FiltroPropietario == "0" ? "" : $" AND PropietarioId='{FiltroPropietario}'";
 
