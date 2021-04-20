@@ -126,7 +126,7 @@ namespace SSpartanoInmobiliaria.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Policy = "Administrador")]
-        public ActionResult Delete(int id, Inmueble e)
+        public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
@@ -137,12 +137,12 @@ namespace SSpartanoInmobiliaria.Controllers
             catch (Exception ex)
             {
                 ViewData["Error"] = ex.Message;
-                TempData["ErrorM"] = "Error desconocido.";
-                return View(e);
+                TempData["ErrorM"] = "Error desconocido al intentar eliminar el inmueble.";
+                return RedirectToAction("Index", "Inmuebles");
             }
         }
 
-        public ActionResult Hide(int id, Inmueble e)
+        public ActionResult Hide(int id)
         {
             try
             {
@@ -153,12 +153,12 @@ namespace SSpartanoInmobiliaria.Controllers
             catch (Exception ex)
             {
                 ViewData["Error"] = ex.Message;
-                TempData["ErrorM"] = "Error desconocido.";
-                return View();
+                TempData["ErrorM"] = "Error desconocido al intentar ocultar el inmueble.";
+                return RedirectToAction("Index", "Home");
             }
         }
 
-        public ActionResult Show(int id, Inmueble e)
+        public ActionResult Show(int id)
         {
             try
             {
@@ -169,8 +169,8 @@ namespace SSpartanoInmobiliaria.Controllers
             catch (Exception ex)
             {
                 ViewData["Error"] = ex.Message;
-                TempData["ErrorM"] = "Error desconocido.";
-                return View(e);
+                TempData["ErrorM"] = "Error desconocido al intentar mostrar el inmueble.";
+                return RedirectToAction("Index", "Home");
             }
         }
 
