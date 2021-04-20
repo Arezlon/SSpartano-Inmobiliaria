@@ -176,36 +176,50 @@ namespace SSpartanoInmobiliaria.Controllers
 
         public ActionResult Buscar(IFormCollection collection)
         {
-            string sqlWhere = "WHERE Inmuebles.Estado = 1";
-
-            string FiltroUso = collection["buscar_uso"];
-            string FiltroTipo = collection["buscar_tipo"];
-            string FiltroCantAmbientes = collection["buscar_ambientes"];
-            string FiltroPrecioMax = collection["buscar_precio"];
-            string FiltroPropietario = collection["buscar_propietario"];
-
-            sqlWhere += FiltroUso == "0" ? "" : $" AND Uso='{FiltroUso}'";
-            sqlWhere += FiltroTipo == "0" ? "" : $" AND Tipo='{FiltroTipo}'";
-            sqlWhere += FiltroCantAmbientes == "" ? "" : $" AND Ambientes='{FiltroCantAmbientes}'";
-            sqlWhere += FiltroPrecioMax == "" ? "" : $" AND Precio<='{FiltroPrecioMax}'";
-            sqlWhere += FiltroPropietario == "0" ? "" : $" AND PropietarioId='{FiltroPropietario}'";
-
-            var lista = ri.ObtenerPorFiltro(sqlWhere);
-            if (collection["buscar_inicio"] != "" && collection["buscar_fin"] != "")
+            try
             {
-                DateTime FiltroFechaInicio = DateTime.Parse(collection["buscar_inicio"]);
-                DateTime FiltroFechaFin = DateTime.Parse(collection["buscar_fin"]);
+                string sqlWhere = "WHERE Inmuebles.Estado = 1";
 
-                RepositorioContrato rc = new RepositorioContrato(c);
-                foreach (var item in lista) //Mejorar esto (Si hay tiempo)
+                string FiltroUso = collection["buscar_uso"];
+                string FiltroTipo = collection["buscar_tipo"];
+                string FiltroCantAmbientes = collection["buscar_ambientes"];
+                string FiltroPrecioMax = collection["buscar_precio"];
+                string FiltroPropietario = collection["buscar_propietario"];
+
+                sqlWhere += FiltroUso == "0" ? "" : $" AND Uso='{FiltroUso}'";
+                sqlWhere += FiltroTipo == "0" ? "" : $" AND Tipo='{FiltroTipo}'";
+                sqlWhere += FiltroCantAmbientes == "" ? "" : $" AND Ambientes='{FiltroCantAmbientes}'";
+                sqlWhere += FiltroPrecioMax == "" ? "" : $" AND Precio<='{FiltroPrecioMax}'";
+                sqlWhere += FiltroPropietario == "0" ? "" : $" AND PropietarioId='{FiltroPropietario}'";
+
+                var lista = ri.ObtenerPorFiltro(sqlWhere);
+                if (collection["buscar_inicio"] != "" && collection["buscar_fin"] != "")
                 {
-                    if (!rc.ComprobarPorInmuebleYFechas(item.Id, FiltroFechaInicio, FiltroFechaFin))
-                        item.Estado = -1; //Estado -1 para inmueble ocupado en las fechas seleccionadas
-                }
-            }
+                    DateTime FiltroFechaInicio = DateTime.Parse(collection["buscar_inicio"]);
+                    DateTime FiltroFechaFin = DateTime.Parse(collection["buscar_fin"]);
 
-            ViewData["ListaPropietarios"] = rp.ObtenerTodos();
-            return View("Index", lista);
+                    if (FiltroFechaInicio > FiltroFechaFin)
+                    {
+                        throw new Exception("No se pueden buscar inmuebles disponibles en las fechas seleccionadas porque las mismas no son válidas. Se volverán a mostrar todos los inmuebles (ignorando todos los filtros)");
+                    }
+
+                    RepositorioContrato rc = new RepositorioContrato(c);
+                    foreach (var item in lista) //Mejorar esto (Si hay tiempo)
+                    {
+                        if (!rc.ComprobarPorInmuebleYFechas(item.Id, FiltroFechaInicio, FiltroFechaFin))
+                            item.Estado = -1; //Estado -1 para inmueble ocupado en las fechas seleccionadas
+                    }
+                }
+
+                ViewData["ListaPropietarios"] = rp.ObtenerTodos();
+                return View("Index", lista);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorM"] = ex.Message;
+                return RedirectToAction("Index");
+            }
+            
         }
     }
 }

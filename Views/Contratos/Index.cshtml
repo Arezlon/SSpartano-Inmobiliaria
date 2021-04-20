@@ -61,7 +61,7 @@
                     @item.FechaInicio.ToShortDateString() - @item.FechaFin.ToShortDateString()
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-outline-dark @Html.Encode(item.Estado != 1 ? "disabled" : "")" asp-route-ContratoId="@item.Id" asp-controller="Pagos" asp-action="Index"><i class="fas fa-money-bill-wave-alt"></i></a>
+                    <a class="btn btn-sm btn-outline-dark" asp-route-ContratoId="@item.Id" asp-controller="Pagos" asp-action="Index"><i class="fas fa-money-bill-wave-alt"></i></a>
                     <a class="btn btn-sm btn-outline-dark" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-list-alt"></i></a>
                     <a class="btn btn-sm btn-outline-dark @Html.Encode(item.Estado != 1 ? "disabled" : "")" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
                     @if (User.IsInRole("Administrador"))
