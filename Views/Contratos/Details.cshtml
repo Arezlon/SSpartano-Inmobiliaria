@@ -124,7 +124,11 @@
                         <input type="month" value="@Model.FechaFin.AddMonths(1).ToString("yyyy-MM")" asp-for="FechaFin" class="form-control" />
                         <span asp-validation-for="FechaFin" class="text-danger"></span>
                     </div>
-                    <small>El nuevo contrato será vigente desde el día @Model.FechaFin.AddDays(1).ToShortDateString() (un dia despúes de la fecha de cierre del contrato actual)</small>
+                    @if (Model.Inmueble.Precio != Model.PrecioInmueble)
+                    {
+                        <small><i class='fas fa-exclamation-triangle'></i> El precio por mes de este inmueble fue modificado de $@Model.PrecioInmueble a $@Model.Inmueble.Precio</small><br />
+                    }
+                    <small><i class="fas fa-info-circle"></i> El nuevo contrato será vigente desde el día @Model.FechaFin.AddDays(1).ToShortDateString() (un dia despúes de la fecha de cierre del contrato actual)</small>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Salir</button>
@@ -153,7 +157,7 @@
                     {
                         <p>Para cancelar este contrato, antes se debe pagar la siguiente multa:</p>
                         <span>Meses con pagos registrados:</span><b> @ViewData["TotalPagos"] <span>de</span> @Model.MesesTotales</b>
-                        <br /><span>Total a pagar antes de cancelar:</span><b> $@(Model.Inmueble.Precio*2)</b>
+                        <br /><span>Total a pagar antes de cancelar:</span><b> $@(Model.PrecioInmueble*2)</b>
                         <br /><span>¿Seguro que desea cancelar este contrato?</span>
                     }
                     else if (Model.MesesTotales == (int)ViewData["TotalPagos"])
@@ -167,7 +171,7 @@
                     {
                         <p>Para cancelar este contrato, antes se debe pagar la siguiente multa:</p>
                         <span>Meses con pagos registrados:</span><b> @ViewData["TotalPagos"] <span>de</span> @Model.MesesTotales</b>
-                        <br /><span>Total a pagar antes de cancelar:</span><b> $@Model.Inmueble.Precio</b>
+                        <br /><span>Total a pagar antes de cancelar:</span><b> $@Model.PrecioInmueble</b>
                         <br /><br><span>¿Seguro que desea cancelar este contrato?</span>
                     }
                     <div class="modal-footer">
