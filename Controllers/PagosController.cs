@@ -36,8 +36,6 @@ namespace SSpartanoInmobiliaria.Controllers
         public ActionResult Create(int ContratoId)
         {
             RepositorioContrato rc = new RepositorioContrato(c);
-            //ViewData["ContratoId"] = ContratoId;
-           
             ViewData["PagosRealizados"] = rc.TotalPagos(ContratoId);
             ViewData["Contrato"] = rc.ObtenerPorId(ContratoId);
             return View();

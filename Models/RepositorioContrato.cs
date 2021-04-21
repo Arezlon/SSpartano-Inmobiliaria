@@ -20,8 +20,8 @@ namespace SSpartanoInmobiliaria.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"INSERT INTO Contratos (InmuebleId, InquilinoId, FechaInicio, FechaFin, Estado) " +
-					$"VALUES (@inmuebleid, @inquilinoid, @fechainicio, @fechafin, @estado);" +
+				string sql = $"INSERT INTO Contratos (InmuebleId, InquilinoId, FechaInicio, FechaFin, Estado, PrecioInmueble) " +
+					$"VALUES (@inmuebleid, @inquilinoid, @fechainicio, @fechafin, @estado, @precioinmueble);" +
 					"SELECT SCOPE_IDENTITY();";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -30,6 +30,7 @@ namespace SSpartanoInmobiliaria.Models
 					command.Parameters.AddWithValue("@inquilinoid", c.InquilinoId);
 					command.Parameters.AddWithValue("@fechainicio", c.FechaInicio);
 					command.Parameters.AddWithValue("@fechafin", c.FechaFin);
+					command.Parameters.AddWithValue("@precioinmueble", c.PrecioInmueble);
 					command.Parameters.AddWithValue("@estado", 1);
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());
@@ -101,7 +102,7 @@ namespace SSpartanoInmobiliaria.Models
 			//string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido "  Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado = 1";
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado " +
+				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado, PrecioInmueble " +
 					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Estado != 0 ORDER BY Contratos.Id DESC";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -118,6 +119,7 @@ namespace SSpartanoInmobiliaria.Models
 							FechaInicio = reader.GetDateTime(3),
 							FechaFin = reader.GetDateTime(4),
 							Estado = reader.GetInt32(5),
+							PrecioInmueble = reader.GetInt32(18),
 							Inmueble = new Inmueble
 							{
 								Id = reader.GetInt32(6),
@@ -155,7 +157,7 @@ namespace SSpartanoInmobiliaria.Models
 			{
 				//string sql = $"SELECT Id, InmuebleId, InquilinoId, FechaInicio, FechaFin FROM Contratos" +
 				//	$" WHERE Id = @id";
-				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado, inm.Precio " +
+				string sql = $"SELECT Contratos.Id, InmuebleId, InquilinoId, FechaInicio, FechaFin, Contratos.Estado, inm.Id, inm.Direccion, inm.Uso, inq.Id ,inq.Nombre, inq.Apellido, pro.Id, pro.Nombre, pro.Apellido, inm.Estado, inq.Estado, pro.Estado, inm.Precio, PrecioInmueble " +
 					$" FROM Contratos JOIN Inmuebles AS inm ON Contratos.InmuebleId = inm.Id JOIN Inquilinos AS inq ON Contratos.InquilinoId = inq.Id JOIN Propietarios AS pro ON inm.PropietarioId = pro.Id WHERE Contratos.Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -173,6 +175,7 @@ namespace SSpartanoInmobiliaria.Models
 							FechaInicio = reader.GetDateTime(3),
 							FechaFin = reader.GetDateTime(4),
 							Estado = reader.GetInt32(5),
+							PrecioInmueble = reader.GetInt32(19),
 							Inmueble = new Inmueble
 							{
 								Id = reader.GetInt32(6),

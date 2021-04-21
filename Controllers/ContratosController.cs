@@ -88,6 +88,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 }
                 if (rc.ComprobarPorInmuebleYFechas(c.InmuebleId, c.FechaInicio, c.FechaFin) == true)
                 {
+                    c.PrecioInmueble = ri.ObtenerPrecioInmueble(c.InmuebleId);
                     rc.Alta(c);
                     TempData["Info"] = "Contrato creado correctamente.";
                     return RedirectToAction(nameof(Index));
@@ -141,6 +142,7 @@ namespace SSpartanoInmobiliaria.Controllers
                 }
                 else
                 {
+                    c.PrecioInmueble = ri.ObtenerPrecioInmueble(c.InmuebleId); //volver a copiar el precio del inmueble (por si existen cambios)
                     rc.Alta(c);
                     rc.Renovar(IdViejo); //ESTADO 2 (CUMPLIDO) EN EL CONTRATO VIEJO
                     TempData["Info"] = "Contrato renovado correctamente.";

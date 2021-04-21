@@ -301,5 +301,28 @@ namespace SSpartanoInmobiliaria.Models
                 return res;
             }
         }
+
+        public int ObtenerPrecioInmueble(int Id)
+        {
+            int precio = 0;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string sql = $"SELECT Precio FROM Inmuebles WHERE Id = @InmuebleId";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.Add("@InmuebleId", SqlDbType.Int).Value = Id;
+                    command.CommandType = CommandType.Text;
+                    connection.Open();
+                    var reader = command.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        precio = reader.GetInt32(0);
+                    }
+                    connection.Close();
+                }
+            }
+            return precio;
+        }
     }
 }

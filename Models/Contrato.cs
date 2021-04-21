@@ -24,6 +24,8 @@ namespace SSpartanoInmobiliaria.Models
         public DateTime FechaFin { get; set; }
         public int Estado { get; set; }
         //ESTADOS (0 Eliminado - 1 Activo - 2 Terminado)
+        [Display(Name = "Precio por mes")]
+        public int PrecioInmueble { get; set; }
         public Inmueble Inmueble { get; set; }
         public Inquilino Inquilino { get; set; }
         public Propietario Propietario { get; set; }

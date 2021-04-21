@@ -101,15 +101,14 @@ namespace SSpartanoInmobiliaria.Models
 			return res;
 		}
 
-		virtual public Pago ObtenerPorId(int id)
+		virtual public Pago ObtenerPorId(int id) //REVISAR
 		{
 			RepositorioInmueble ri = new RepositorioInmueble(configuration);
 			RepositorioInquilino rinq = new RepositorioInquilino(configuration);
 			Pago p = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				//string sql = $"SELECT Id, ContratoId, Fecha FROM Pagos WHERE Estado = 1 AND Id = @id";
-				string sql = $"SELECT Pagos.Id, ContratoId, Fecha, cn.Id, cn.InmuebleId, cn.InquilinoId, cn.FechaInicio, cn.FechaFin FROM Pagos JOIN Contratos AS cn ON Pagos.ContratoId = cn.Id WHERE Pagos.Id = @id";
+				string sql = $"SELECT Pagos.Id, ContratoId, Fecha, cn.Id, cn.InmuebleId, cn.InquilinoId, cn.FechaInicio, cn.FechaFin, cn.PrecioInmueble FROM Pagos JOIN Contratos AS cn ON Pagos.ContratoId = cn.Id WHERE Pagos.Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -132,6 +131,7 @@ namespace SSpartanoInmobiliaria.Models
 								FechaFin = reader.GetDateTime(7),
 								Inmueble = ri.ObtenerPorId(reader.GetInt32(4)),
 								Inquilino = rinq.ObtenerPorId(reader.GetInt32(5)),
+								PrecioInmueble = reader.GetInt32(8)
 							}
 						};
 					}
@@ -141,14 +141,14 @@ namespace SSpartanoInmobiliaria.Models
 			return p;
 		}
 
-		public IList<Pago> ObtenerPorContrato(int idC)
+		public IList<Pago> ObtenerPorContrato(int idC) //REVISAR
 		{
 			RepositorioInmueble ri = new RepositorioInmueble(configuration);
 			RepositorioInquilino rinq = new RepositorioInquilino(configuration);
 			IList<Pago> res = new List<Pago>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Pagos.Id, ContratoId, Fecha, cn.Id, cn.InmuebleId, cn.InquilinoId, cn.FechaInicio, cn.FechaFin FROM Pagos JOIN Contratos AS cn ON Pagos.ContratoId = cn.Id WHERE ContratoId = @idC ORDER BY Pagos.Id DESC";
+				string sql = $"SELECT Pagos.Id, ContratoId, Fecha, cn.Id, cn.InmuebleId, cn.InquilinoId, cn.FechaInicio, cn.FechaFin, cn.PrecioInmueble FROM Pagos JOIN Contratos AS cn ON Pagos.ContratoId = cn.Id WHERE ContratoId = @idC ORDER BY Pagos.Id DESC";
 				//string sql = $"SELECT Id, ContratoId, Fecha FROM Pagos WHERE Estado = 1 AND ContratoId = @idC";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -174,6 +174,7 @@ namespace SSpartanoInmobiliaria.Models
 								FechaFin = reader.GetDateTime(7),
 								Inmueble = ri.ObtenerPorId(reader.GetInt32(4)),
 								Inquilino = rinq.ObtenerPorId(reader.GetInt32(5)),
+								PrecioInmueble = reader.GetInt32(8),
 							}
 						};
 						res.Add(p);
